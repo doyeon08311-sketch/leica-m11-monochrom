@@ -1,0 +1,172 @@
+{
+  "imageDir": "images/",
+  "notice": {
+    "importer": "라이카카메라AG/라이카카메라코리아",
+    "warranty": "구입일로부터 2년",
+    "service": "라이카코리아 고객센터",
+    "tel": "1661-0405"
+  },
+  "categories": [
+    { "id": "protect", "name": "카메라 본체 보호 액세서리", "short": "본체 보호" },
+    { "id": "grip", "name": "그립 및 조작 편의 액세서리", "short": "그립·조작" },
+    { "id": "power", "name": "전원 및 충전 액세서리", "short": "전원·충전" },
+    { "id": "carry", "name": "휴대 및 스타일링 액세서리", "short": "휴대·스타일링" },
+    { "id": "lens", "name": "렌즈 및 촬영 관련 액세서리", "short": "렌즈·촬영" }
+  ],
+  "items": [
+    {
+      "no": "01",
+      "category": "protect",
+      "name": "Protector M11",
+      "nameKo": "전용 보호 케이스",
+      "price": 530000,
+      "images": ["Protector_M11(01).png", "Protector_M11(02).png"],
+      "desc": "카메라 하단과 측면을 감싸는 가죽 보호 액세서리입니다. 바닥면과 측면부의 흠집을 방지합니다.",
+      "colors": ["올리브"],
+      "uses": ["스크래치 및 외부 충격 보호", "디자인 보완"]
+    },
+    {
+      "no": "02",
+      "category": "protect",
+      "name": "Half Case",
+      "nameKo": "하프 케이스",
+      "price": 270000,
+      "images": ["Half_Case(01).png", "Half_Case(02).png", "Half_Case(03).png"],
+      "desc": "카메라 하단을 중심으로 감싸는 가죽 케이스입니다. 그립감을 개선하고 바닥면의 흠집을 방지합니다.",
+      "colors": ["블랙", "코냑", "올리브"],
+      "uses": ["바디 보호", "클래식한 외관 연출"]
+    },
+    {
+      "no": "03",
+      "category": "grip",
+      "name": "Handgrip M11",
+      "nameKo": "전용 핸드그립",
+      "price": 720000,
+      "images": ["Handgrip_M11(01).png", "Handgrip_M11(02).png", "Handgrip_M11(03).png"],
+      "desc": "카메라 하단에 장착하는 전용 핸드그립입니다. 손으로 잡는 면적을 넓혀 카메라를 안정적으로 지지할 수 있도록 도와줍니다.",
+      "colors": ["블랙"],
+      "uses": ["파지 안정성 향상", "한 손 촬영 보조"]
+    },
+    {
+      "no": "04",
+      "category": "grip",
+      "name": "Thumb Support M11",
+      "nameKo": "엄지 받침대",
+      "price": 510000,
+      "images": ["Thumb_Support_M11(01).png", "Thumb_Support_M11(02).png"],
+      "desc": "카메라 후면의 핫슈에 장착하는 엄지 받침대입니다. 엄지손가락을 지지해 카메라를 보다 안정적으로 잡을 수 있도록 도와줍니다.",
+      "colors": ["블랙", "실버"],
+      "uses": ["그립감 개선", "촬영 중 카메라 흔들림 감소"]
+    },
+    {
+      "no": "05",
+      "category": "grip",
+      "name": "Visoflex 2",
+      "nameKo": "전자식 뷰파인더",
+      "price": 1370000,
+      "images": ["Visoflex_2(01).png", "Visoflex_2(02).png"],
+      "desc": "카메라 상단의 액세서리 슈에 장착하는 전자식 뷰파인더입니다. 고해상도 전자식 화면을 통해 촬영 구도와 초점을 확인할 수 있습니다.",
+      "colors": ["블랙"],
+      "uses": ["전자식 뷰파인더 촬영", "정밀한 초점 확인"]
+    },
+    {
+      "no": "06",
+      "category": "power",
+      "name": "BP-SCL7",
+      "nameKo": "전용 리튬이온 배터리",
+      "price": 320000,
+      "images": ["Battery_BP-SCL7(01).png", "Battery_BP-SCL7(02).png"],
+      "desc": "라이카 M11 시리즈에 사용하는 충전식 리튬이온 배터리입니다. 추가 배터리를 준비하면 장시간 촬영 시 배터리 부족에 대비할 수 있습니다.",
+      "colors": ["블랙", "실버"],
+      "uses": ["예비 전원 확보", "장시간 촬영 지원"]
+    },
+    {
+      "no": "07",
+      "category": "power",
+      "name": "BC-SCL7",
+      "nameKo": "전용 배터리 충전기",
+      "price": 270000,
+      "images": ["Charger_BC-SCL7(01).png"],
+      "desc": "BP-SCL7 배터리를 충전하는 전용 충전기입니다. 별도 충전 장비를 통해 배터리를 충전하고 여분의 배터리를 관리할 수 있습니다.",
+      "colors": ["블랙"],
+      "uses": ["배터리 충전 및 예비 배터리 관리"]
+    },
+    {
+      "no": "08",
+      "category": "power",
+      "name": "Leica FOTOS Cable",
+      "nameKo": "전용 USB-C 케이블",
+      "price": 60000,
+      "images": ["Leica_FOTOS_Cable(01).png"],
+      "desc": "카메라와 스마트폰 등 외부 기기를 연결하는 전용 케이블입니다. 사진 전송 및 기기 연결에 활용할 수 있습니다.",
+      "colors": ["블랙"],
+      "uses": ["사진 전송", "외부 기기 연결"]
+    },
+    {
+      "no": "09",
+      "category": "carry",
+      "name": "Carrying Strap",
+      "nameKo": "전용 카메라 스트랩",
+      "price": 210000,
+      "images": ["Carrying_Strap(01).png", "Carrying_Strap(02).png"],
+      "desc": "카메라에 연결해 목이나 어깨에 걸어 휴대할 수 있는 전용 스트랩입니다. 직조 소재와 가죽을 조합한 디자인으로 휴대 편의성과 외관을 함께 고려한 제품입니다.",
+      "colors": ["블랙", "코냑"],
+      "uses": ["카메라 휴대", "낙하 방지", "스타일링"]
+    },
+    {
+      "no": "10",
+      "category": "carry",
+      "name": "Wrist Strap",
+      "nameKo": "손목 스트랩",
+      "price": 110000,
+      "images": ["Wrist_Strap(01).png", "Wrist_Strap(02).png"],
+      "desc": "카메라에 연결해 손목에 걸어 사용하는 짧은 형태의 스트랩입니다. 촬영 중 카메라를 손에서 놓치지 않도록 보조합니다.",
+      "colors": ["블랙", "버건디"],
+      "uses": ["근거리 촬영", "휴대 안정성 확보"]
+    },
+    {
+      "no": "11",
+      "category": "lens",
+      "name": "Lens Hood",
+      "nameKo": "렌즈 후드",
+      "price": 240000,
+      "images": ["Lens_Hood(01).png", "Lens_Hood(02).png", "Lens_Hood(03).png", "Lens_Hood(04).png"],
+      "desc": "렌즈 앞부분에 장착하는 액세서리입니다. 측면에서 들어오는 불필요한 빛을 차단해 플레어와 고스트 현상을 줄이고 렌즈 전면을 보호합니다.",
+      "colors": ["블랙", "실버"],
+      "uses": ["불필요한 빛 차단", "렌즈 보호"]
+    },
+    {
+      "no": "12",
+      "category": "lens",
+      "name": "Color Filter",
+      "nameKo": "컬러 필터",
+      "price": 280000,
+      "images": ["Color_Filter(01).png", "Color_Filter(02).png"],
+      "desc": "렌즈 앞부분에 장착하는 색상 필터입니다. 흑백 사진 촬영 시 특정 색상의 밝기를 조절해 사진의 명암 대비와 표현력을 변화시킬 수 있습니다.",
+      "colors": ["오렌지", "그린"],
+      "uses": ["흑백 사진 콘트라스트 조절", "색조별 명암 표현"]
+    },
+    {
+      "no": "13",
+      "category": "lens",
+      "name": "Filter UVa",
+      "nameKo": "UV 보호 필터",
+      "price": 260000,
+      "images": ["UVa_Filter(01).png"],
+      "desc": "렌즈 앞부분에 장착하는 투명 보호 필터입니다. 렌즈 전면에 직접 먼지나 오염물이 닿는 것을 줄여 렌즈 표면을 보호하는 데 활용합니다.",
+      "colors": ["투명"],
+      "uses": ["렌즈 전면 보호", "먼지 및 오염 방지"]
+    },
+    {
+      "no": "14",
+      "category": "lens",
+      "name": "Macro-Elmar-M",
+      "nameKo": "매크로 어댑터",
+      "price": 3700000,
+      "images": ["Macro_Adapter_M(01).png", "Macro_Adapter_M(02).png", "Macro_Adapter_M(03).png"],
+      "desc": "호환되는 M 렌즈와 카메라 사이에 장착해 근접 촬영을 지원하는 액세서리입니다. 일반적인 촬영 거리보다 가까운 피사체를 촬영할 때 활용합니다.",
+      "colors": ["블랙"],
+      "uses": ["접사 촬영", "작은 사물 및 디테일 촬영"]
+    }
+  ]
+}

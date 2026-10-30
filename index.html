@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Leica M11 Monochrom — 빛과 그림자로 완성하는 사진</title>
+  <meta name="description" content="흑백 전용 센서로 빛과 그림자만을 담는 카메라, 라이카 M11 모노크롬. 제품 특징과 상세 스펙, 사진가들의 흑백 작품을 만나보세요.">
+  <link rel="icon" type="image/png" sizes="196x196" href="images/logo.png?v=2">
+  <link rel="apple-touch-icon" href="images/logo.png?v=2">
+  <!-- Font Awesome (메뉴 아이콘) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="style.css?v=44">
+</head>
+<body class="locked">
+
+  <div id="scrolltrack" aria-hidden="true"></div>
+
+  <!-- 제품 소개: 구체가 한 바퀴 돈 뒤 올라옴. 화면에 고정된 채 스크롤 한 화면마다 한 단계씩 진행 -->
+  <section id="product" class="next product" lang="ko" aria-labelledby="productTitle">
+    <div class="product-sticky">
+      <!-- 배경 영상: images/video.mp4 전체를 소리 없이 반복 재생 (컨트롤·재생 버튼 없음) -->
+      <div class="product-bg" aria-hidden="true">
+        <video class="film-video" src="images/video.mp4" muted loop playsinline preload="auto"
+               disablepictureinpicture disableremoteplayback tabindex="-1"></video>
+        <span class="product-shade"></span>
+        <span class="product-glow"></span>
+      </div>
+      <div class="product-inner">
+        <!-- 배경의 큰 윤곽 단계 번호 -->
+        <div class="product-bignum" aria-hidden="true"><span class="is-on">01</span><span>02</span><span>03</span></div>
+        <div class="product-body">
+          <span class="product-eyebrow"><i aria-hidden="true"></i>Monochrom Sensor</span>
+          <h2 id="productTitle" class="product-title">라이카 M11 모노크롬</h2>
+          <div class="product-frame">
+          <!-- 뷰파인더 브라이트라인 프레임 모서리 + 상태 표시 -->
+          <span class="bl bl-tl" aria-hidden="true"></span><span class="bl bl-tr" aria-hidden="true"></span><span class="bl bl-bl" aria-hidden="true"></span><span class="bl bl-br" aria-hidden="true"></span>
+          <span class="pv-hud" aria-hidden="true"><i></i><b class="hud-color">Color</b><b class="hud-mono">Monochrom</b></span>
+          <span class="pv-count" aria-hidden="true"><b>01</b> / 03</span>
+          <div class="product-visual">
+            <!-- 단계마다 사진 1장. 사진은 .pv-color의 src만 바꾸면 됨 (흑백 레이어는 JS가 같은 파일을 씀) -->
+            <figure class="pv is-on">
+              <img class="pv-color" src="images/color-1.jpg" alt="노을 진 하늘 아래 남산서울타워" decoding="async">
+              <img class="pv-bw" alt="" aria-hidden="true" decoding="async">
+              <span class="pv-glint" aria-hidden="true"></span>
+              <span class="pv-grain" aria-hidden="true"></span>
+            </figure>
+            <figure class="pv">
+              <img class="pv-color" src="images/color-2.jpg" alt="산과 숲이 비치는 잔잔한 호수" decoding="async">
+              <img class="pv-bw" alt="" aria-hidden="true" decoding="async">
+              <span class="pv-glint" aria-hidden="true"></span>
+              <span class="pv-grain" aria-hidden="true"></span>
+            </figure>
+            <figure class="pv">
+              <img class="pv-color" src="images/color-3.jpg" alt="어두운 천 위에서 어른의 손가락을 쥔 아기 손" decoding="async">
+              <img class="pv-bw" alt="" aria-hidden="true" decoding="async">
+              <span class="pv-glint" aria-hidden="true"></span>
+              <span class="pv-grain" aria-hidden="true"></span>
+            </figure>
+          </div>
+          </div>
+          <div class="product-steps">
+            <div class="step is-on">
+              <span class="step-no">01</span>
+              <h3>오직 흑백을 위해</h3>
+              <p>컬러 필터를 걷어낸 흑백 전용 센서. <br>빛이 가진 모든 정보를 온전히 받아들입니다.</p>
+            </div>
+            <div class="step">
+              <span class="step-no">02</span>
+              <h3>보이지 않던 것까지</h3>
+              <p>최대 6천만 화소. <br>질감 하나, 결 하나까지 선명하게 기록합니다.</p>
+            </div>
+            <div class="step">
+              <span class="step-no">03</span>
+              <h3>어둠 속에서도</h3>
+              <p>빛이 부족한 순간에도 노이즈는 줄이고, <br>풍부한 명암은 그대로 남깁니다.</p>
+            </div>
+          </div>
+          <!-- 단계 진행 막대 -->
+          <div class="product-progress" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 특징: 왼쪽에 아이콘과 함께 3단 목록, 오른쪽에 이미지 슬라이드.
+       슬라이드 사진은 images/slide-01~03.png (없으면 자리 표시). 장수를 바꾸려면 .slide를 추가/삭제.
+       JS가 이 .slide들을 복제해 원형 3D 갤러리(카드 8장 이상)로 배치함 -->
+  <section id="features" class="features" lang="ko" aria-label="주요 특징">
+    <div class="features-sticky">
+      <div class="features-inner">
+        <div class="feat-list">
+          <article class="feat">
+            <span class="feat-icon" aria-hidden="true"><i class="fa-solid fa-microchip"></i></span>
+            <div class="feat-text">
+              <h3 class="feat-title"><span class="reveal"><span>독보적인 모노크롬 M 센서</span></span></h3>
+              <p>독점적으로 개발한 3단계 해상도 조절 기술이 적용된 풀프레임 센서가 매우 자연스러운 선명도로 미세한 디테일까지 묘사합니다.</p>
+            </div>
+          </article>
+          <article class="feat">
+            <span class="feat-icon" aria-hidden="true"><i class="fa-solid fa-moon"></i></span>
+            <div class="feat-text">
+              <h3 class="feat-title"><span class="reveal"><span>ISO125 to <span class="iso-num" data-to="200000">200.000</span></span></span></h3>
+              <p>컬러 필터를 생략하여 고감도 ISO에서 노이즈 특성이 뛰어난 이미지를 촬영할 수 있습니다.</p>
+            </div>
+          </article>
+          <article class="feat">
+            <span class="feat-icon" aria-hidden="true"><i class="fa-solid fa-award"></i></span>
+            <div class="feat-text">
+              <h3 class="feat-title"><span class="reveal"><span>최고의 품질 기준</span></span></h3>
+              <p>독일에서 수작업으로 정밀하게 제조된 아이코닉한 디자인의 올메탈 하우징</p>
+            </div>
+          </article>
+        </div>
+        <div class="feat-slider" aria-roledescription="carousel" aria-label="사진 슬라이드">
+          <div class="ring-stage">
+            <figure class="slide">
+              <span class="slide-ph">images/slide-01.png</span>
+              <img src="images/slide-01.png" alt="" decoding="async">
+            </figure>
+            <figure class="slide">
+              <span class="slide-ph">images/slide-02.png</span>
+              <img src="images/slide-02.png" alt="" decoding="async">
+            </figure>
+            <figure class="slide">
+              <span class="slide-ph">images/slide-03.png</span>
+              <img src="images/slide-03.png" alt="" decoding="async">
+            </figure>
+          </div>
+          <span class="slide-anchor" aria-hidden="true"></span>
+          <div class="slider-ui">
+            <button type="button" class="slide-btn slide-prev" aria-label="이전 사진"><i class="fa-solid fa-arrow-left"></i></button>
+            <span class="slide-count"><b>01</b> / <span class="slide-total">03</span></span>
+            <button type="button" class="slide-btn slide-next" aria-label="다음 사진"><i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+          <span class="slide-bar" aria-hidden="true"><i></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 제품 스펙: 왼쪽 핵심 수치 + 분류별 기술 데이터(탭), 오른쪽 갤러리 뷰어.
+       갤러리 사진은 images/gallery-01~06.png (01이 처음 큰 이미지, 없으면 자리 표시) -->
+  <section id="specs" class="specs" lang="ko" aria-labelledby="specsTitle">
+    <div class="specs-pin">
+      <div class="specs-inner">
+        <div class="spec-main">
+          <header class="spec-head">
+            <span class="spec-eyebrow"><i aria-hidden="true"></i>Specifications</span>
+            <h2 id="specsTitle" class="spec-title">제품 스펙</h2>
+            <p class="spec-lead">빛과 그림자만을 위해 다듬은 Leica M11 Monochrom의 기술 데이터</p>
+          </header>
+          <ul class="spec-keys">
+            <li><b>6030<small>만</small></b><span>화소 모노크롬 센서</span></li>
+            <li><b>200,000</b><span>최대 ISO 감도</span></li>
+            <li><b>256<small>GB</small></b><span>내장 메모리</span></li>
+            <li><b>542<small>g</small></b><span>배터리 포함 무게</span></li>
+          </ul>
+          <div class="spec-table">
+            <div class="spec-tabs" role="tablist" aria-label="스펙 분류">
+              <button type="button" class="spec-tab is-on" role="tab" id="tab-general" aria-controls="panel-general" aria-selected="true">일반</button>
+              <button type="button" class="spec-tab" role="tab" id="tab-sensor" aria-controls="panel-sensor" aria-selected="false">센서</button>
+              <button type="button" class="spec-tab" role="tab" id="tab-finder" aria-controls="panel-finder" aria-selected="false">뷰파인더·LCD</button>
+              <button type="button" class="spec-tab" role="tab" id="tab-shutter" aria-controls="panel-shutter" aria-selected="false">셔터</button>
+              <button type="button" class="spec-tab" role="tab" id="tab-focus" aria-controls="panel-focus" aria-selected="false">초점</button>
+              <button type="button" class="spec-tab" role="tab" id="tab-exposure" aria-controls="panel-exposure" aria-selected="false">노출</button>
+              <button type="button" class="spec-tab" role="tab" id="tab-flash" aria-controls="panel-flash" aria-selected="false">플래시</button>
+              <button type="button" class="spec-tab" role="tab" id="tab-connect" aria-controls="panel-connect" aria-selected="false">연결</button>
+              <button type="button" class="spec-tab" role="tab" id="tab-power" aria-controls="panel-power" aria-selected="false">전원</button>
+            </div>
+            <dl class="spec-panel is-on" role="tabpanel" id="panel-general" aria-labelledby="tab-general">
+              <div class="spec-row"><dt>카메라 유형</dt><dd><span>레인지파인더 방식 디지털 시스템 카메라</span></dd></div>
+              <div class="spec-row"><dt>버퍼 메모리</dt><dd><span>3GB</span><span>DNG 15장 · JPG 100장 이상 연속 저장</span></dd></div>
+              <div class="spec-row"><dt>저장 매체</dt><dd><span>UHS-II(권장)·UHS-I SD/SDHC/SDXC 메모리 카드 (SDXC 최대 2TB)</span><span>내장 메모리 256GB</span></dd></div>
+              <div class="spec-row"><dt>소재</dt><dd><span>마그네슘·알루미늄 올메탈 하우징, 인조가죽 커버</span></dd></div>
+              <div class="spec-row"><dt>렌즈 마운트</dt><dd><span>라이카 M 바요넷 (6비트 렌즈 코드 인식 센서)</span></dd></div>
+              <div class="spec-row"><dt>작동 환경</dt><dd><span>0°C ~ +40°C</span></dd></div>
+              <div class="spec-row"><dt>인터페이스</dt><dd><span>ISO 액세서리 슈 (라이카 플래시·비조플렉스 2 뷰파인더용 추가 접점, 뷰파인더 별매)</span><span>USB 3.1 Gen1 Type-C</span></dd></div>
+              <div class="spec-row"><dt>삼각대 나사</dt><dd><span>A ¼ DIN 4503 (¼″), 바닥면 스테인리스 스틸</span></dd></div>
+              <div class="spec-row"><dt>크기 (W×H×D)</dt><dd><span>139 × 38.5 × 80 mm</span></dd></div>
+              <div class="spec-row"><dt>무게</dt><dd><span>블랙 약 542g (배터리 포함) / 461g (배터리 제외)</span></dd></div>
+            </dl>
+            <dl class="spec-panel" role="tabpanel" id="panel-sensor" aria-labelledby="tab-sensor" hidden>
+              <div class="spec-row"><dt>센서</dt><dd><span>모노크롬 BSI CMOS, 픽셀 피치 3.76µm</span><span>35mm 풀프레임 9528 × 6328 픽셀 (6030만 화소)</span></dd></div>
+              <div class="spec-row"><dt>프로세서</dt><dd><span>라이카 마에스트로 III</span></dd></div>
+              <div class="spec-row"><dt>필터</dt><dd><span>UV/IR 필터, 로우패스 필터 없음</span></dd></div>
+              <div class="spec-row"><dt>파일 형식</dt><dd><span>DNG (RAW, 무손실 압축), DNG + JPG, JPG (DCF, Exif 2.30)</span></dd></div>
+              <div class="spec-row"><dt>해상도</dt><dd><span>DNG — L 60.4MP (9536 × 6336) · M 36.6MP (7424 × 4936) · S 18.5MP (5280 × 3506)</span><span>JPG — L 60.1MP (9504 × 6320) · M 36.2MP (7392 × 4896) · S 18.2MP (5248 × 3472)</span><span class="spec-note">형식·해상도와 관계없이 항상 센서 전체를 사용</span><span class="spec-note">디지털 줌 1.3배·1.8배 (L-DNG·L-JPG 기준)</span></dd></div>
+              <div class="spec-row"><dt>파일 크기</dt><dd><span>DNG — L 약 70–120MB · M 약 40–70MB · S 약 20–40MB</span><span>JPG — L 약 15–30MB · M 약 9–18MB · S 약 5–9MB</span><span class="spec-note">JPG는 해상도와 촬영 내용에 따라 다름</span></dd></div>
+              <div class="spec-row"><dt>계조</dt><dd><span>DNG 14bit · JPG 8bit</span></dd></div>
+              <div class="spec-row"><dt>색 공간</dt><dd><span>sRGB</span></dd></div>
+            </dl>
+            <dl class="spec-panel" role="tabpanel" id="panel-finder" aria-labelledby="tab-finder" hidden>
+              <div class="spec-row"><dt>뷰파인더</dt><dd><span>자동 시차 보정 대형 브라이트라인 레인지파인더</span><span>-0.5dpt 기준, 보정 렌즈 -3 ~ +3dpt (별매)</span></dd></div>
+              <div class="spec-row"><dt>표시</dt><dd><span>상·하단 4자리 디지털 표시</span><span>브라이트라인 프레임 35+135mm · 28+90mm · 50+75mm (렌즈 장착 시 자동 전환)</span></dd></div>
+              <div class="spec-row"><dt>시차 보정</dt><dd><span>초점 거리에 맞춰 뷰파인더와 렌즈 사이의 수평·수직 차이를 자동 보정</span><span>2m — 센서 크기(약 23.9 × 35.8mm)와 프레임이 일치</span><span>무한대 — 초점거리에 따라 약 7.3%(28mm) ~ 18%(135mm) 차이</span><span>2m 미만 — 센서 크기보다 좁게 표시</span></dd></div>
+              <div class="spec-row"><dt>배율</dt><dd><span>0.73배 (모든 렌즈)</span></dd></div>
+              <div class="spec-row"><dt>거리계</dt><dd><span>뷰파인더 중앙의 밝은 영역에 분할상 또는 이중상으로 표시</span></dd></div>
+              <div class="spec-row"><dt>LCD</dt><dd><span>2.95인치 TFT, 사파이어 글라스</span><span>233만 2800 도트, 3:2 비율, 터치 지원</span></dd></div>
+            </dl>
+            <dl class="spec-panel" role="tabpanel" id="panel-shutter" aria-labelledby="tab-shutter" hidden>
+              <div class="spec-row"><dt>셔터 방식</dt><dd><span>전자 제어 포컬플레인 셔터 + 전자 셔터</span></dd></div>
+              <div class="spec-row"><dt>셔터 속도</dt><dd><span>기계식 60분 ~ 1/4000초</span><span>전자식 60초 ~ 1/16000초</span><span>플래시 동조 1/180초까지</span><span class="spec-note">블랙 프레임 노이즈 감소 (해제 가능)</span></dd></div>
+              <div class="spec-row"><dt>셔터 버튼</dt><dd><span>2단계 — 반셔터: 측광·노출 고정 / 완전히 누름: 촬영</span></dd></div>
+              <div class="spec-row"><dt>셀프타이머</dt><dd><span>2초 · 12초</span></dd></div>
+              <div class="spec-row"><dt>드라이브 모드</dt><dd><span>단사, 저속 연사(3fps), 고속 연사(4.5fps), 인터벌 촬영, 노출 브라케팅</span></dd></div>
+            </dl>
+            <dl class="spec-panel" role="tabpanel" id="panel-focus" aria-labelledby="tab-focus" hidden>
+              <div class="spec-row"><dt>초점 범위</dt><dd><span>레인지파인더 70cm ~ ∞</span><span>라이브 뷰는 장착 렌즈에 따라 다름</span></dd></div>
+              <div class="spec-row"><dt>초점 모드</dt><dd><span>수동 (확대 보기·포커스 피킹 보조)</span></dd></div>
+            </dl>
+            <dl class="spec-panel" role="tabpanel" id="panel-exposure" aria-labelledby="tab-exposure" hidden>
+              <div class="spec-row"><dt>측광</dt><dd><span>TTL(렌즈 통과) 측광, 실조리개</span></dd></div>
+              <div class="spec-row"><dt>측광 원리</dt><dd><span>라이브 뷰·레인지파인더 모드 모두 이미지 센서로 측광</span></dd></div>
+              <div class="spec-row"><dt>측광 모드</dt><dd><span>스폿 · 중앙 중점 · 하이라이트 중점 · 멀티 필드</span></dd></div>
+              <div class="spec-row"><dt>노출 모드</dt><dd><span>조리개 우선(A) — 셔터 속도 자동</span><span>수동(M) — 셔터 속도·조리개 직접 설정</span></dd></div>
+              <div class="spec-row"><dt>노출 보정</dt><dd><span>±3EV, 1/3EV 단위</span></dd></div>
+              <div class="spec-row"><dt>자동 브라케팅</dt><dd><span>3장 또는 5장, 최대 3EV 간격(1/3EV 단위)</span><span>추가 노출 보정 최대 ±3EV</span></dd></div>
+              <div class="spec-row"><dt>ISO 감도</dt><dd><span>자동 ISO 125(기본) ~ 200,000 (플래시 모드에서도 사용 가능)</span><span>수동 ISO 125 ~ 200,000</span></dd></div>
+            </dl>
+            <dl class="spec-panel" role="tabpanel" id="panel-flash" aria-labelledby="tab-flash" hidden>
+              <div class="spec-row"><dt>연결</dt><dd><span>액세서리 슈</span></dd></div>
+              <div class="spec-row"><dt>측광 원리</dt><dd><span>라이브 뷰·레인지파인더 모드 모두 이미지 센서로 플래시 측광</span></dd></div>
+              <div class="spec-row"><dt>동조 속도</dt><dd><span>1/180초, 더 느린 셔터 속도 사용 가능</span><span>동조 속도보다 빠르면 HSS 지원 라이카 플래시에서 TTL 리니어 모드로 자동 전환</span></dd></div>
+              <div class="spec-row"><dt>플래시 측광</dt><dd><span>중앙 중점 TTL 프리플래시</span><span>라이카 SF 26 · 40 · 58 · 60 · 64, 시스템 호환 플래시, 무선 컨트롤러 SF C1</span></dd></div>
+              <div class="spec-row"><dt>플래시 노출 보정</dt><dd><span>SF 40 — ±2EV, 1/2EV 단위</span><span>SF 60 — ±2EV, 1/3EV 단위</span><span>기타 — ±3EV, 1/3EV 단위</span></dd></div>
+              <div class="spec-row"><dt>뷰파인더 표시</dt><dd><span>외부 플래시 연결 시 플래시 아이콘</span></dd></div>
+            </dl>
+            <dl class="spec-panel" role="tabpanel" id="panel-connect" aria-labelledby="tab-connect" hidden>
+              <div class="spec-row"><dt>Wi-Fi</dt><dd><span>2.4GHz / 5GHz 듀얼 밴드 IEEE 802.11 a/b/g/n/ac Wave2</span><span>WPA/WPA2 암호화, 인프라스트럭처 모드</span><span class="spec-note">Wi-Fi 기능은 라이카 FOTOS 앱 필요 (App Store · Google Play)</span></dd></div>
+              <div class="spec-row"><dt>블루투스</dt><dd><span>v4.2 BR/EDR/LE, BR/EDR 채널 1–79, LE 채널 0–39 (2402–2480MHz)</span></dd></div>
+              <div class="spec-row"><dt>GPS</dt><dd><span>블루투스로 연결한 라이카 FOTOS 앱을 통해 위치 정보 기록</span></dd></div>
+              <div class="spec-row"><dt>메뉴 언어</dt><dd><span>한국어, 영어, 독일어, 프랑스어, 이탈리아어, 스페인어, 러시아어, 포르투갈어, 일본어, 중국어(번체·간체)</span></dd></div>
+            </dl>
+            <dl class="spec-panel" role="tabpanel" id="panel-power" aria-labelledby="tab-power" hidden>
+              <div class="spec-row"><dt>배터리 (BP-SCL7)</dt><dd><span>리튬 폴리머 충전식, 7.4V / 1800mAh</span><span>촬영 가능 약 700장(CIPA 기준, 레인지파인더 모드) ~ 약 1700장(라이카 촬영 기준)</span><span>충전 +10 ~ +35°C / 사용 0 ~ +40°C</span><span class="spec-note">제조: Fuji Electronics (Shenzhen) Co., Ltd., 중국</span></dd></div>
+              <div class="spec-row"><dt>충전기 (BC-SCL7)</dt><dd><span>입력 USB-C DC 5V 2A / 출력 DC 8.4V 1A</span><span>사용 +10 ~ +35°C</span><span class="spec-note">제조: Dee Van Enterprises Co., Ltd., 중국</span></dd></div>
+              <div class="spec-row"><dt>전원 어댑터 (ACA-SCL7)</dt><dd><span>입력 AC 110–240V, 50/60Hz, 0.3A / 출력 DC 5V 2A</span><span>사용 +10 ~ +35°C</span><span class="spec-note">제조: Dee Van Enterprises Co., Ltd., 중국</span></dd></div>
+              <div class="spec-row"><dt>USB 전원</dt><dd><span>대기·전원 꺼짐 — USB 충전</span><span>전원 켜짐 — USB 전원 공급 및 간헐 충전</span></dd></div>
+            </dl>
+          </div>
+        </div>
+        <!-- 갤러리 뷰어: 큰 이미지 1장 + 썸네일 01~06(순서 고정). 썸네일·화살표·키보드 ←/→로 넘김 -->
+        <div class="spec-viewer" aria-label="포토 갤러리">
+          <figure class="viewer-main">
+            <div class="viewer-frame">
+              <div class="vw-layer"><span class="gal-ph">images/gallery-01.png</span><img src="images/gallery-01.png" alt="" decoding="async"></div>
+              <button type="button" class="vw-arrow vw-prev" aria-label="이전 사진"><i class="fa-solid fa-chevron-left"></i></button>
+              <button type="button" class="vw-arrow vw-next" aria-label="다음 사진"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <figcaption class="viewer-cap">
+              <span class="viewer-no"><b>01</b> / 06</span>
+              <i aria-hidden="true"></i>
+              <span class="viewer-name">Leica M11 Monochrom</span>
+            </figcaption>
+          </figure>
+          <ul class="viewer-thumbs">
+            <li><button type="button" class="thumb is-on" aria-label="1번 사진 보기" aria-current="true"><span class="gal-ph">01</span><img src="images/gallery-01.png" alt="" decoding="async" loading="lazy"></button></li>
+            <li><button type="button" class="thumb" aria-label="2번 사진 보기"><span class="gal-ph">02</span><img src="images/gallery-02.png" alt="" decoding="async" loading="lazy"></button></li>
+            <li><button type="button" class="thumb" aria-label="3번 사진 보기"><span class="gal-ph">03</span><img src="images/gallery-03.png" alt="" decoding="async" loading="lazy"></button></li>
+            <li><button type="button" class="thumb" aria-label="4번 사진 보기"><span class="gal-ph">04</span><img src="images/gallery-04.png" alt="" decoding="async" loading="lazy"></button></li>
+            <li><button type="button" class="thumb" aria-label="5번 사진 보기"><span class="gal-ph">05</span><img src="images/gallery-05.png" alt="" decoding="async" loading="lazy"></button></li>
+            <li><button type="button" class="thumb" aria-label="6번 사진 보기"><span class="gal-ph">06</span><img src="images/gallery-06.png" alt="" decoding="async" loading="lazy"></button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 갤러리: M11 모노크롬을 먼저 경험한 세 사진가의 감상과 사진.
+       왼쪽 글·사진가 목록, 오른쪽 .g-stage에 사진 판들이 비스듬히 겹쳐 서 있음(3D).
+       사진가 이름이나 사진을 누르면 그 사람 사진만 모여 평면으로 펼쳐지고 왼쪽은 그 사람의 감상으로 바뀜.
+       사진은 images/mono-01~11.png (없으면 자리 표시). 감상 글은 아래 .g-src에서 가져옴 -->
+  <section id="gallery" class="gallery" lang="ko" aria-labelledby="galleryTitle">
+    <div class="gal-inner">
+      <div class="g-side">
+        <div class="g-panel">
+          <div class="g-intro">
+            <span class="g-eyebrow"><i aria-hidden="true"></i>Gallery — Three Photographers</span>
+            <h2 id="galleryTitle" class="g-title"><span class="gl"><span>세 사람의 시선,</span></span><span class="gl"><span>하나의 <em>모노크롬</em></span></span></h2>
+            <p class="g-lead">라이카 M11 모노크롬을 먼저 손에 쥔 세 명의 사진가.<br>그들이 빛과 그림자만으로 기록한 순간들을 만나 보세요.</p>
+          </div>
+          <div class="g-detail" aria-live="polite">
+            <span class="g-idx"></span>
+            <h3 class="g-name"></h3>
+            <span class="g-role">Photographer</span>
+            <blockquote class="g-quote"></blockquote>
+            <p class="g-note"></p>
+          </div>
+        </div>
+        <p class="g-cta"><span class="g-pulse" aria-hidden="true"></span><span class="g-cta-text">이름을 눌러 사진가의 작품을 펼쳐 보세요</span><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></p>
+        <ol class="g-index">
+          <li><button type="button" data-ch="0"><span class="g-no">01</span><span class="g-who">Fatma Almosa</span><small>3 photos</small><span class="g-pulse" aria-hidden="true"></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></li>
+          <li><button type="button" data-ch="1"><span class="g-no">02</span><span class="g-who">Phil Penman</span><small>4 photos</small><span class="g-pulse" aria-hidden="true"></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></li>
+          <li><button type="button" data-ch="2"><span class="g-no">03</span><span class="g-who">Alan Schaller</span><small>4 photos</small><span class="g-pulse" aria-hidden="true"></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></li>
+        </ol>
+        <button type="button" class="g-back" data-ch="-1"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i>모든 사진 보기</button>
+      </div>
+      <div class="g-stage is-overview" aria-label="사진 모음">
+        <span class="g-bgname" aria-hidden="true"></span>
+        <figure class="g-card" data-ch="0" data-ar="1.5" data-no="Nº 01" data-name="Fatma Almosa">
+          <button type="button" class="g-open" aria-label="Fatma Almosa의 사진 Nº 01">
+            <span class="gal-ph">images/mono-01.png</span>
+            <img src="images/mono-01.png" alt="Fatma Almosa가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 01 · Fatma Almosa</span>
+          </button>
+        </figure>
+        <figure class="g-card" data-ch="0" data-ar="1.5" data-no="Nº 02" data-name="Fatma Almosa">
+          <button type="button" class="g-open" aria-label="Fatma Almosa의 사진 Nº 02">
+            <span class="gal-ph">images/mono-02.png</span>
+            <img src="images/mono-02.png" alt="Fatma Almosa가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 02 · Fatma Almosa</span>
+          </button>
+        </figure>
+        <figure class="g-card" data-ch="0" data-ar="1.5" data-no="Nº 03" data-name="Fatma Almosa">
+          <button type="button" class="g-open" aria-label="Fatma Almosa의 사진 Nº 03">
+            <span class="gal-ph">images/mono-03.png</span>
+            <img src="images/mono-03.png" alt="Fatma Almosa가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 03 · Fatma Almosa</span>
+          </button>
+        </figure>
+        <figure class="g-card" data-ch="1" data-ar="0.66" data-no="Nº 04" data-name="Phil Penman">
+          <button type="button" class="g-open" aria-label="Phil Penman의 사진 Nº 04">
+            <span class="gal-ph">images/mono-04.png</span>
+            <img src="images/mono-04.png" alt="Phil Penman가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 04 · Phil Penman</span>
+          </button>
+        </figure>
+        <figure class="g-card" data-ch="1" data-ar="0.71" data-no="Nº 05" data-name="Phil Penman">
+          <button type="button" class="g-open" aria-label="Phil Penman의 사진 Nº 05">
+            <span class="gal-ph">images/mono-05.png</span>
+            <img src="images/mono-05.png" alt="Phil Penman가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 05 · Phil Penman</span>
+          </button>
+        </figure>
+        <figure class="g-card" data-ch="1" data-ar="0.66" data-no="Nº 06" data-name="Phil Penman">
+          <button type="button" class="g-open" aria-label="Phil Penman의 사진 Nº 06">
+            <span class="gal-ph">images/mono-06.png</span>
+            <img src="images/mono-06.png" alt="Phil Penman가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 06 · Phil Penman</span>
+          </button>
+        </figure>
+        <figure class="g-card" data-ch="1" data-ar="0.71" data-no="Nº 07" data-name="Phil Penman">
+          <button type="button" class="g-open" aria-label="Phil Penman의 사진 Nº 07">
+            <span class="gal-ph">images/mono-07.png</span>
+            <img src="images/mono-07.png" alt="Phil Penman가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 07 · Phil Penman</span>
+          </button>
+        </figure>
+        <figure class="g-card" data-ch="2" data-ar="0.7" data-no="Nº 08" data-name="Alan Schaller">
+          <button type="button" class="g-open" aria-label="Alan Schaller의 사진 Nº 08">
+            <span class="gal-ph">images/mono-08.png</span>
+            <img src="images/mono-08.png" alt="Alan Schaller가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 08 · Alan Schaller</span>
+          </button>
+        </figure>
+        <figure class="g-card" data-ch="2" data-ar="0.7" data-no="Nº 09" data-name="Alan Schaller">
+          <button type="button" class="g-open" aria-label="Alan Schaller의 사진 Nº 09">
+            <span class="gal-ph">images/mono-09.png</span>
+            <img src="images/mono-09.png" alt="Alan Schaller가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 09 · Alan Schaller</span>
+          </button>
+        </figure>
+        <figure class="g-card" data-ch="2" data-ar="0.7" data-no="Nº 10" data-name="Alan Schaller">
+          <button type="button" class="g-open" aria-label="Alan Schaller의 사진 Nº 10">
+            <span class="gal-ph">images/mono-10.png</span>
+            <img src="images/mono-10.png" alt="Alan Schaller가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 10 · Alan Schaller</span>
+          </button>
+        </figure>
+        <figure class="g-card" data-ch="2" data-ar="0.7" data-no="Nº 11" data-name="Alan Schaller">
+          <button type="button" class="g-open" aria-label="Alan Schaller의 사진 Nº 11">
+            <span class="gal-ph">images/mono-11.png</span>
+            <img src="images/mono-11.png" alt="Alan Schaller가 M11 모노크롬으로 촬영한 흑백 사진" decoding="async">
+            <span class="g-label">Nº 11 · Alan Schaller</span>
+          </button>
+        </figure>
+      </div>
+    </div>
+    <div class="g-src" hidden>
+      <article data-ch="0"><h3>Fatma Almosa</h3><blockquote>색을 없애는 것만으로도 새로운 사진의 세계가 열립니다. 흑백 사진은 새로운 예술분야와도 같죠.</blockquote><p>M11 모노크롬은 흑백 사진에 대한 제 열정을 한 층 더 확실하게 만들어주었습니다. 특히 녹티룩스 렌즈와 사용했을 때 환상적인 사진이 탄생하죠.</p></article>
+      <article data-ch="1"><h3>Phil Penman</h3><blockquote>그냥 나가서 즐기세요. 그러면 좋은 결과물이 나올 거예요. 실패를 두려워하지 마세요. 실패를 통해 배우는 거니까요!</blockquote><p>저는 라이카 M11 모노크롬을 주로 사용합니다. 흑백 사진을 주로 찍기 때문에 당연한 선택이죠. 컬러 사진은 흑백 사진과는 느낌이 완전히 다르거든요.</p></article>
+      <article data-ch="2"><h3>Alan Schaller</h3><blockquote>스트릿 사진은 매일같이 마주치는 순간들을 감상하는 법을 가르쳐 주었습니다. 평소에는 놓치곤 했던 순간들이 보이기 시작합니다.</blockquote><p>라이카 모노크롬 카메라는 처음 출시되고부터 언제나 저와 함께였습니다. 이번 4세대 모노크롬은 가히 최고입니다.</p></article>
+    </div>
+  </section>
+
+  <!-- 액세서리: 화면 한 장. 왼쪽 제목·분류 필터·제품 타일, 오른쪽 고른 제품의 상세 + 공식몰 구매 버튼.
+       내용은 accessories.json에서 JS가 채움(fetch라 file://에서는 안 보임 → Live Server로 확인).
+       공식몰 주소는 script.js의 MALL_URL 한 곳에서 바꿈 -->
+  <section id="accessories" class="acc" lang="ko" aria-labelledby="accTitle">
+    <div class="acc-inner">
+      <div class="acc-side">
+        <header class="acc-head">
+          <span class="acc-eyebrow"><i aria-hidden="true"></i>Accessories</span>
+          <h2 id="accTitle" class="acc-title">액세서리</h2>
+          <p class="acc-lead">M11 모노크롬을 위해 만든 라이카 정품 액세서리.<br>마음에 드는 제품은 라이카 공식몰에서 바로 만나 보세요.</p>
+        </header>
+        <div class="acc-filter" role="group" aria-label="액세서리 분류"></div>
+        <ul class="acc-grid" aria-label="액세서리 목록"></ul>
+        <a class="acc-all mall-link" href="#">공식몰에서 전체 액세서리 보기<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <article class="acc-detail" aria-live="polite">
+        <div class="acc-media">
+          <div class="acc-plinth">
+            <img class="acc-img" alt="" decoding="async">
+          </div>
+          <button type="button" class="acc-arrow acc-prev" aria-label="이전 이미지"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+          <button type="button" class="acc-arrow acc-next" aria-label="다음 이미지"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+          <div class="acc-dots" aria-label="제품 이미지"></div>
+        </div>
+        <div class="acc-info">
+          <span class="acc-cat"></span>
+          <h3 class="acc-name"></h3>
+          <p class="acc-ko"></p>
+          <p class="acc-price"></p>
+          <p class="acc-desc"></p>
+          <dl class="acc-meta">
+            <div><dt>색상</dt><dd class="acc-colors"></dd></div>
+            <div><dt>용도</dt><dd class="acc-uses"></dd></div>
+          </dl>
+          <a class="acc-buy mall-link" href="#">공식몰에서 구매하기<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          <p class="acc-assure"><span>정품 보증</span><span>품질보증 2년</span><span>공식 A/S</span></p>
+          <details class="acc-notice">
+            <summary>상품 정보 고시<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+            <dl></dl>
+          </details>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 상담 예약: 화면 한 장. 왼쪽 안내(상담 방식·매장·문의), 오른쪽 신청 폼.
+       서버가 없어서 제출하면 입력 검사 후 화면에서만 '접수 완료'로 바뀜(실제 전송 없음) -->
+  <!-- 버전: is-light(폼 색 반전) + is-split(오른쪽 절반 밝은 면) 또는 is-card(밝은 카드). 셋 다 빼면 어두운 버전 -->
+  <section id="booking" class="bk is-light is-split" lang="ko" aria-labelledby="bkTitle">
+    <div class="bk-inner">
+      <div class="bk-side">
+        <span class="bk-eyebrow"><i aria-hidden="true"></i>Leica Advisor</span>
+        <h2 id="bkTitle" class="bk-title">상담 예약</h2>
+        <p class="bk-lead">라이카 어드바이저와 상담을 예약하고<br>나에게 꼭 맞는 조언을 받아 보세요.</p>
+        <dl class="bk-facts">
+          <div>
+            <dt>상담 매장</dt>
+            <dd>
+              <ul class="bk-stores">
+                <li>라이카 스토어 청담</li>
+                <li>라이카 스토어 더현대 서울</li>
+                <li>라이카 스토어 현대 무역</li>
+                <li>라이카 스토어 현대 판교</li>
+                <li>라이카 스토어 신세계 강남</li>
+                <li>라이카 스토어 신세계 본점</li>
+                <li>라이카 스토어 롯데월드타워 에비뉴엘</li>
+              </ul>
+            </dd>
+          </div>
+        </dl>
+        <!-- 전화 문의: 아이콘 원 + 큰 번호 (누르면 전화 걸기) -->
+        <a class="bk-call" href="tel:1661-0405">
+          <span class="bk-call-ico" aria-hidden="true"><i class="fa-solid fa-phone"></i></span>
+          <span class="bk-call-txt"><small>고객센터 전화 문의</small><strong>1661-0405</strong></span>
+        </a>
+        <p class="bk-note">충무로점, 대치점, 해운대점은 현재 상담 예약을 지원하지 않습니다.</p>
+      </div>
+
+      <div class="bk-panel">
+        <form class="bk-form" novalidate>
+          <div class="bk-row">
+            <div class="bk-field" data-field="given">
+              <label for="bkGiven">이름<b aria-hidden="true">*</b></label>
+              <input id="bkGiven" name="given" type="text" autocomplete="given-name" required>
+              <span class="bk-err">이름을 입력해 주세요.</span>
+            </div>
+            <div class="bk-field" data-field="family">
+              <label for="bkFamily">성<b aria-hidden="true">*</b></label>
+              <input id="bkFamily" name="family" type="text" autocomplete="family-name" required>
+              <span class="bk-err">성을 입력해 주세요.</span>
+            </div>
+          </div>
+          <div class="bk-field" data-field="email">
+            <label for="bkEmail">이메일 주소<b aria-hidden="true">*</b></label>
+            <input id="bkEmail" name="email" type="email" autocomplete="email" inputmode="email" required>
+            <span class="bk-err">올바른 이메일 주소를 입력해 주세요.</span>
+          </div>
+          <fieldset class="bk-field" data-field="topic">
+            <legend>어떤 상담이 필요하신가요?<b aria-hidden="true">*</b></legend>
+            <div class="bk-chips">
+              <label class="bk-chip"><input type="radio" name="topic" value="제품 상담"><span>제품 상담</span></label>
+              <label class="bk-chip"><input type="radio" name="topic" value="중고 제품 구매(청담 익스클루시브)"><span>중고 제품 구매<small>청담 익스클루시브</small></span></label>
+              <label class="bk-chip"><input type="radio" name="topic" value="중고 감정 및 보상 판매"><span>중고 감정 및 보상 판매</span></label>
+              <label class="bk-chip"><input type="radio" name="topic" value="제품 테스트"><span>제품 테스트</span></label>
+              <label class="bk-chip"><input type="radio" name="topic" value="기타"><span>기타</span></label>
+            </div>
+            <span class="bk-err">상담 내용을 선택해 주세요.</span>
+          </fieldset>
+          <!-- 상담 방식: 아이콘·설명이 있는 선택 카드 두 장(라디오) -->
+          <fieldset class="bk-field" data-field="mode">
+            <legend>상담 방식<b aria-hidden="true">*</b></legend>
+            <div class="bk-modes">
+              <label class="bk-mode">
+                <input type="radio" name="mode" value="방문 상담">
+                <span class="bk-mode-card">
+                  <span class="bk-mode-ico" aria-hidden="true"><i class="fa-solid fa-store"></i></span>
+                  <span class="bk-mode-txt"><strong>방문 상담</strong><small>매장에서 제품을 직접 보며 상담</small></span>
+                  <span class="bk-mode-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+                </span>
+              </label>
+              <label class="bk-mode">
+                <input type="radio" name="mode" value="전화 상담">
+                <span class="bk-mode-card">
+                  <span class="bk-mode-ico" aria-hidden="true"><i class="fa-solid fa-phone"></i></span>
+                  <span class="bk-mode-txt"><strong>전화 상담</strong><small>원하는 시간에 전화로 편하게</small></span>
+                  <span class="bk-mode-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+                </span>
+              </label>
+            </div>
+            <span class="bk-err">상담 방식을 선택해 주세요.</span>
+          </fieldset>
+          <!-- 매장 선택: 직접 만든 드롭다운(↑/↓·Enter·Esc). 고른 값은 숨은 input에 들어감 -->
+          <div class="bk-field bk-select" data-field="store">
+            <span class="bk-label" id="bkStoreLbl">희망 매장<b aria-hidden="true">*</b></span>
+            <button type="button" class="bk-select-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="bkStoreList" aria-labelledby="bkStoreLbl bkStoreVal">
+              <span class="bk-select-val" id="bkStoreVal">매장을 선택해 주세요</span>
+              <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+            </button>
+            <ul class="bk-options" id="bkStoreList" role="listbox" aria-labelledby="bkStoreLbl" tabindex="-1" hidden>
+              <li role="option" id="bkStore1" aria-selected="false">라이카 스토어 청담</li>
+              <li role="option" id="bkStore2" aria-selected="false">라이카 스토어 더현대 서울</li>
+              <li role="option" id="bkStore3" aria-selected="false">라이카 스토어 현대 무역</li>
+              <li role="option" id="bkStore4" aria-selected="false">라이카 스토어 현대 판교</li>
+              <li role="option" id="bkStore5" aria-selected="false">라이카 스토어 신세계 강남</li>
+              <li role="option" id="bkStore6" aria-selected="false">라이카 스토어 신세계 본점</li>
+              <li role="option" id="bkStore7" aria-selected="false">라이카 스토어 롯데월드타워 에비뉴엘</li>
+            </ul>
+            <input type="hidden" name="store">
+            <span class="bk-err">상담받을 매장을 선택해 주세요.</span>
+          </div>
+          <div class="bk-foot">
+            <div class="bk-field bk-agree" data-field="agree">
+              <label><input type="checkbox" name="agree"><span class="bk-box" aria-hidden="true"><i class="fa-solid fa-check"></i></span>개인정보 수집·이용에 동의합니다 <em>(필수)</em></label>
+              <span class="bk-err">개인정보 수집·이용에 동의해 주세요.</span>
+            </div>
+            <button type="submit" class="bk-submit">상담 예약 신청<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+          </div>
+        </form>
+
+        <div class="bk-done" tabindex="-1" hidden>
+          <span class="bk-done-icon" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+          <h3 class="bk-done-title">상담 예약 신청이 접수되었습니다</h3>
+          <p class="bk-done-text"><b class="bk-done-name"></b>님, 담당 어드바이저가 입력하신 이메일로 상담 일정을 안내해 드립니다.</p>
+          <dl class="bk-summary"></dl>
+          <button type="button" class="bk-again"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i>새로 작성하기</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-foot" lang="ko">
+    <div class="foot-inner">
+      <dl class="foot-info">
+        <div><dt>라이카 카메라 코리아(주) 대표자</dt><dd>수닐카울</dd></div>
+        <div><dt>전화번호</dt><dd><a href="tel:1661-0405">1661-0405</a></dd></div>
+        <div class="foot-addr"><dt class="sr-only">주소</dt><dd>서울시 강남구 도산대로 456 일진청담빌딩 8층</dd></div>
+        <div><dt>사업자등록번호</dt><dd>211-88-55103</dd></div>
+        <div><dt>통신판매업 신고번호</dt><dd>제2016-서울강남-01819호</dd></div>
+      </dl>
+      <p class="foot-copy">Copyright © 2025 Leica Camera Korea Ltd.</p>
+      <p class="foot-brand"><img src="images/logo.png" alt="Leica" width="196" height="196">Das Wesentliche</p>
+    </div>
+  </footer>
+
+  <div id="stage">
+    <div id="world">
+      <div id="orb"></div>
+      <h1 id="headline"><span class="inner"><img class="hero" src="images/camera.png" alt="Leica M11 Monochrom" width="813" height="546" style="--i:0" draggable="false"></span></h1>
+    </div>
+  </div>
+
+  <div class="vig" aria-hidden="true"></div>
+
+  <!-- 스크롤 회전 중 양옆에 나타났다 사라지는 문구 -->
+  <p class="side side-left"><span class="ln"><span>Leica M11</span></span> <span class="ln"><span>Monochrom</span></span></p>
+  <p class="side side-right" lang="ko"><span class="ln"><span>빛과 그림자로</span></span> <span class="ln"><span>완성하는 사진</span></span></p>
+
+  <header class="chrome">
+    <a class="wordmark" href="#" aria-label="Leica"><img src="images/logo.png" alt="Leica" width="196" height="196"></a>
+    <div class="head-actions">
+    <!-- 구매하기: 공식몰 주소는 script.js의 MALL_URL이 .mall-link 전부에 넣어 줌 -->
+    <a class="buy-btn mall-link" href="#">구매하기<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    </div>
+  </header>
+
+  <div class="cue chrome" aria-hidden="true"><s></s>Scroll or drag to rotate</div>
+
+  <div id="menu" aria-hidden="true">
+    <div class="menu-inner" lang="ko">
+      <nav aria-label="주요 메뉴">
+        <a href="#product" data-close-menu data-scroll="product" style="--i:0">제품 소개</a>
+        <a href="#specs" data-close-menu data-scroll="specs" style="--i:1">제품 스펙</a>
+        <a href="#gallery" data-close-menu data-scroll="gallery" style="--i:2">갤러리</a>
+        <a href="#accessories" data-close-menu data-scroll="accessories" style="--i:3">액세서리</a>
+        <a href="#booking" data-close-menu data-scroll="booking" style="--i:4">상담 예약</a>
+      </nav>
+      <!-- 공식몰 주소는 script.js의 MALL_URL (외부 주소면 새 탭으로 열림) -->
+      <a class="mall mall-link" href="#" data-close-menu style="--i:5">라이카 공식몰 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+
+  <div id="lit" aria-hidden="true">
+    <div class="scrim" data-close></div>
+    <div class="plate" id="plate">
+      <div class="shot">
+        <img id="litImg" alt="">
+        <button class="close" type="button" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="splash">
+    <div class="mark"><img src="images/logo.png" alt="Leica" width="196" height="196"></div>
+    <div class="bar"><s id="bar"></s></div>
+    <div class="tag">Leica M11 Monochrom</div>
+  </div>
+
+  <!-- 갤러리 사진 크게 보기 -->
+  <div id="gview" class="gview" role="dialog" aria-modal="true" aria-label="사진 크게 보기" aria-hidden="true">
+    <button type="button" class="gv-close" aria-label="닫기"><i class="fa-solid fa-xmark"></i></button>
+    <button type="button" class="gv-arrow gv-prev" aria-label="이전 사진"><i class="fa-solid fa-chevron-left"></i></button>
+    <figure class="gv-fig">
+      <img class="gv-img" alt="">
+      <figcaption><b class="gv-name"></b><span class="gv-no"></span></figcaption>
+    </figure>
+    <button type="button" class="gv-arrow gv-next" aria-label="다음 사진"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+
+  <!-- 공식몰 안내 모달: .mall-link(구매하기·메뉴 라이카 공식몰·액세서리 구매/전체 보기)를 누르면 열림.
+       주소는 script.js의 MALL_URL(공식몰)·PORTFOLIO_URL(포트폴리오 더보기) -->
+  <div id="mallModal" class="mm" role="dialog" aria-modal="true" aria-labelledby="mmTitle" aria-describedby="mmText" aria-hidden="true" lang="ko">
+    <div class="mm-scrim" data-mm-close></div>
+    <div class="mm-box">
+      <button type="button" class="mm-close" data-mm-close aria-label="닫기"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      <span class="mm-eyebrow"><i aria-hidden="true"></i>Notice</span>
+      <h2 class="mm-title" id="mmTitle">잠시, 이 페이지에 대하여</h2>
+      <p class="mm-text" id="mmText">이곳은 라이카 M11 모노크롬에 대한 애정으로 만든 비공식 포트폴리오입니다. 실제 제품과 구매는 라이카 공식 스토어에서 만나보세요.</p>
+      <div class="mm-actions">
+        <a class="mm-btn mm-ghost" id="mmPortfolio" href="#">포트폴리오 더보기</a>
+        <a class="mm-btn mm-main" id="mmMall" href="#" target="_blank" rel="noopener">라이카 공식몰<i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div id="dot" aria-hidden="true"></div>
+
+  <script src="script.js?v=30"></script>
+</body>
+</html>
