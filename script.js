@@ -169,7 +169,7 @@
   const dot = $('#dot');
 
   const N = SHOTS.length;
-  const altOf = (i) => 'Leica M11 Monochrom sample photo ' + (i + 1);
+  const altOf = (i) => '라이카 M11 모노크롬 샘플 사진 ' + (i + 1);
   const coarse = matchMedia('(pointer:coarse)').matches;
   const fineCursor = matchMedia('(hover:hover) and (pointer:fine)').matches;
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -637,9 +637,15 @@
     const name = src.querySelector('h3').textContent;
     galDetail.querySelector('.g-idx').innerHTML = `<i aria-hidden="true"></i>${String(ch + 1).padStart(2, '0')} / ${String(galSrcArts.length).padStart(2, '0')}`;
     galDetail.querySelector('.g-name').textContent = name;
-    galDetail.querySelector('.g-quote').innerHTML = src.querySelector('blockquote').textContent.trim().split(/\s+/)
-      .map((w, i) => `<span class="w" style="--d:${i}">${w}</span>`).join(' ');
-    galDetail.querySelector('.g-note').textContent = src.querySelector('p').textContent;
+    // 인용문을 단어별 <span class="w">로 나눔. 원문의 <br>은 줄바꿈으로 그대로 살림
+    // (textContent만 쓰면 <br>이 사라지고 앞뒤 단어가 붙어 버림)
+    let wi = 0;
+    galDetail.querySelector('.g-quote').innerHTML = [...src.querySelector('blockquote').childNodes].map((n) =>
+      n.nodeName === 'BR' ? '<br>'
+        : n.textContent.trim().split(/\s+/).filter(Boolean)
+          .map((w) => `<span class="w" style="--d:${wi++}">${w}</span>`).join(' ')
+    ).join(' ');
+    galDetail.querySelector('.g-note').innerHTML = src.querySelector('p').innerHTML;   // 원문의 <br> 줄바꿈 유지
     galBgName.textContent = name;
     galDetail.classList.remove('show');
     void galDetail.offsetWidth;
@@ -1308,7 +1314,7 @@
     body.classList.toggle('menu-open', on);
     root.classList.toggle('menu-open', on); // 스크롤바 자리 배경도 메뉴 색으로
     menuBtn.setAttribute('aria-expanded', String(on));
-    menuBtn.setAttribute('aria-label', on ? 'Close menu' : 'Open menu');
+    menuBtn.setAttribute('aria-label', on ? '메뉴 닫기' : '메뉴 열기');
     // 아이콘(선 세 개 ↔ X)은 CSS가 body.menu-open을 보고 바꿈
     menu.setAttribute('aria-hidden', String(!on));
   }

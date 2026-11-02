@@ -78,14 +78,14 @@ button{
 a{-webkit-tap-highlight-color:transparent}
 
 /* =========================================================
-   SCROLL TRACK — 문서 높이 116vh, 스크롤 가능 거리 16vh = 줌 전체
+   SCROLL TRACK — 첫 화면 구체 회전 구간(높이는 JS가 화면 높이 × (1 + ROT_VH)로 설정)
    ========================================================= */
 #scrolltrack{
   height:400vh; /* JS가 화면 높이 × (1 + ROT_VH)로 덮어씀 */
   pointer-events:none;
 }
 
-/* 다음 섹션 — 아직 비어 있음 */
+/* 구체 아래 다크 섹션 공통(.next: 제품 소개) */
 .next{
   position:relative;
   min-height:100vh;
@@ -1201,7 +1201,7 @@ html.loading{background:#111}
 .g-detail.show .g-quote .w{color:#f4f2ef}
 .g-note{
   margin:0;
-  max-width:32em;
+  max-width:37em;   /* 감상 글 한 문장이 한 줄에 들어가도록 */
   padding-left:16px;
   border-left:1px solid var(--accent);
   font-size:clamp(13.5px, .95vw, 15.5px);
@@ -1539,7 +1539,7 @@ html.mm-lock{overflow:hidden}
 .mm-box{
   --accent:#f2c230;
   position:relative;
-  width:min(480px, 100%);
+  width:min(500px, 100%);   /* 안내 문구 마지막 줄이 한 줄에 들어가는 폭 */
   padding:clamp(30px, 4.4vh, 44px) clamp(26px, 3vw, 40px) clamp(26px, 3.6vh, 36px);
   border:1px solid rgba(244,242,239,.1);
   border-radius:14px;
