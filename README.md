@@ -22,6 +22,11 @@
 
 <br>
 
+## 기획서
+
+페이지의 기획 의도와 구성은 기획서에 정리했습니다.
+
+**📄 [기획서 보기 (Canva)](https://canva.link/ojkslwqfgsukczl)**
 
 <br>
 
