@@ -1739,6 +1739,8 @@ html.mm-lock, html.acc-lock{overflow:hidden}
 .mm-btn:focus-visible, .mm-close:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
 @media (max-width:420px){
   .mm-actions{flex-direction:column-reverse}
+  /* 세로로 쌓으면 flex:1(기준 0)이 높이를 글자만큼으로 줄여 버튼이 납작해짐 → 높이 48px 고정 */
+  .mm-btn{flex:0 0 48px}
 }
 .gv-img{
   display:block;
@@ -3744,19 +3746,15 @@ body.menu-open .to-top{opacity:0; visibility:hidden}
   .side{position:absolute}
   .side-left{top:calc(46vh - var(--hw) * .336 - min(22vw, 140px) - 18px); top:calc(46dvh - var(--hw) * .336 - min(22vw, 140px) - 18px)}
   .side-right{bottom:auto; top:calc(46vh + var(--hw) * .336 + 20px); top:calc(46dvh + var(--hw) * .336 + 20px)}
-  /* 첫 화면 뒤 사진 바둑판(JS buildHeroTiles) — 흑백, 아주 옅게, 아래로 갈수록 사라짐 */
+  /* 첫 화면 뒤 사진 바둑판(JS buildHeroTiles) — 21장을 미리 합친 통 이미지 한 장(흑백·10% 농도로 구워 둠),
+     아래로 갈수록 사라짐 */
   .hero-tiles{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    grid-template-rows:repeat(6, 1fr);
-    gap:3px;
+    display:block;
     height:100%;
-    opacity:.1;
-    filter:grayscale(1);
+    background:url("images/hero-grid.jpg") center top / cover no-repeat;
     -webkit-mask-image:linear-gradient(to bottom, #000 55%, transparent);
     mask-image:linear-gradient(to bottom, #000 55%, transparent);
   }
-  .hero-tiles img{width:100%; height:100%; min-height:0; object-fit:cover}
 
   /* 섹션 여백: 위 96px(헤더 62px + 여유) · 아래 72px로 통일 */
   .product-inner{padding-top:96px; padding-bottom:72px}

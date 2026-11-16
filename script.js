@@ -1660,16 +1660,24 @@
     }, 450);   // 막대가 끝까지 찬 뒤 잠깐 멈췄다가 페이드아웃
   }
 
-  const cap = decodeMax();
-  SHOTS.forEach((s, i) => {
-    prepare(IMG_DIR + s.file, cap)
-      .then((src) => {
-        cardSrc[i] = src;
-        show(cards[i].img, src);
-      })
-      .catch(() => {})
-      .finally(report);
-  });
+  // 구체 카드 사진(원본 약 12MB)은 PC에서만 받음 — 모바일은 구체가 숨겨져 있어 받지 않고, PC 폭이 되면 그때 받음
+  let cardsLoaded = false;
+  function loadCards() {
+    if (cardsLoaded || isMob()) return;
+    cardsLoaded = true;
+    const cap = decodeMax();
+    SHOTS.forEach((s, i) => {
+      prepare(IMG_DIR + s.file, cap)
+        .then((src) => {
+          cardSrc[i] = src;
+          show(cards[i].img, src);
+        })
+        .catch(() => {})
+        .finally(report);
+    });
+  }
+  loadCards();
+  addEventListener('resize', loadCards);
 
   /* ---------- 공개: 스플래시가 걷히면 바로 메인 화면 ---------- */
   let revealed = false;
@@ -1688,22 +1696,14 @@
     // (모바일 6초 뒤 자동 이동은 인터랙션 최소화 요청으로 삭제)
   }
 
-  /* 모바일 첫 화면 배경: 구체 대신 사진 21장(SHOTS)을 바둑판으로 #scrolltrack 안에 아주 옅게 깔기.
+  /* 모바일 첫 화면 배경: 구체 대신 사진 바둑판을 #scrolltrack 안에 아주 옅게 깔기.
+     사진 21장을 4열×6줄로 미리 합친 한 장(images/hero-grid.jpg, 흑백·옅게 구워 둠, 약 60KB)을 CSS 배경으로.
      페이지와 함께 스크롤되고 카메라(#stage) 뒤에 놓임. 모바일 폭이 처음 될 때 한 번만 만듦(PC에서는 만들지 않음) */
   let heroTiles = null;
   function buildHeroTiles() {
     if (heroTiles || !isMob()) return;
     heroTiles = document.createElement('div');
     heroTiles.className = 'hero-tiles';
-    const files = SHOTS.map((s) => s.file);
-    // 4열 × 6줄 = 24칸 — 모자라는 3칸은 앞 사진으로 채움
-    for (let k = 0; k < 24; k++) {
-      const img = document.createElement('img');
-      img.src = IMG_DIR + files[k % files.length];
-      img.alt = '';
-      img.decoding = 'async';
-      heroTiles.appendChild(img);
-    }
     scrolltrack.appendChild(heroTiles);
   }
   buildHeroTiles();
