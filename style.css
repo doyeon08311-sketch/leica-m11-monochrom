@@ -1,7 +1,10 @@
 /* =========================================================
-   FONT — Pretendard (로컬 호스팅)
-   fonts/PretendardVariable.woff2 를 넣으면 그 파일을 사용하고,
-   없으면 시스템에 설치된 Pretendard → Arial → sans-serif 순으로 대체됩니다.
+   FONT — Pretendard (사이트에 직접 포함, 외부 글꼴 서버 없음)
+   1) 기기에 설치된 Pretendard가 있으면 그것을 씀(아래 "Pretendard", 다운로드 없음)
+   2) 없으면 fonts/pretendard/의 가변 글꼴 부분판("Pretendard Variable", index.html에서 불러옴)
+      — 글자 범위별 92조각 중 페이지에 실제로 쓰인 글자가 든 조각만 받음(조각당 약 30KB)
+   3) 그래도 안 되면 Arial → sans-serif
+   라이선스: SIL Open Font License 1.1 (fonts/pretendard/LICENSE.txt)
    ========================================================= */
 @font-face{
   font-family:"Pretendard";
@@ -9,9 +12,7 @@
   font-weight:45 920;
   font-display:swap;
   src:local("Pretendard Variable"),
-      local("Pretendard"),
-      url("fonts/PretendardVariable.woff2") format("woff2-variations"),
-      url("fonts/PretendardVariable.woff2") format("woff2");
+      local("Pretendard");
 }
 
 /* =========================================================
