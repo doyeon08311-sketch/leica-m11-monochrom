@@ -1,6 +1,6 @@
 # Leica M11 Monochrom — 제품 소개 페이지
 
->흑백 전용 카메라, Leica M11 Monochrom을 스크롤 인터랙션을 활용해 소개하는 웹 페이지입니다.
+>흑백 전용 카메라, Leica M11 Monochrom을 스크롤 인터랙션을 활용해 소개하는 랜딩 페이지입니다.
 
 <br>
 
@@ -11,7 +11,7 @@
 | 프로젝트 구분 | 개인용 포트폴리오 |
 | 프로젝트 종류 | 제품 소개용 랜딩 페이지 |
 | 작업자 | 윤도연 (기여도 100%) |
-| 사용 툴 | Figma, Visual Studio Code, Claude Code |
+| 사용 툴 | Figma, Photoshop, Visual Studio Code, Claude Code |
 | 작업 기간 | 2026년 10월 00일 ~ 10월 00일 (n일간) |
 
 **🔗 사이트 보기: https://leica-m11-monochrom.vercel.app**
