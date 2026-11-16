@@ -175,6 +175,9 @@
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const W = () => window.innerWidth;
   const H = () => window.innerHeight;
+  // 모바일(900px 이하): 스크롤 연동 연출 없음 — 구체는 저절로 돌고 화면 1장 뒤 바로 제품 소개,
+  // 제품 소개는 고정 없이 단계를 위아래로 나열(사진이 화면에 들어오면 흑백 전환이 한 번 재생). PC 동작은 그대로
+  const isMob = () => W() <= 900;
 
   // 로딩 화면 동안 페이지 스크롤 잠금
   root.style.overflow = 'hidden';
@@ -228,10 +231,10 @@
     orb.style.setProperty('--cw', cw + 'px');
     for (const c of cards) placeCard(c);
 
-    // 회전 구간 높이 = 화면 1장 + 한 바퀴 도는 스크롤 거리
-    scrolltrack.style.height = Math.round(h * (1 + ROT_VH)) + 'px';
-    // 제품 소개 = 진입 화면 1장 + 단계 수 × STEP_VH 화면만큼 고정
-    product.style.height = Math.round(h * (1 + PRODUCT_STEPS * STEP_VH)) + 'px';
+    // 회전 구간 높이 = 화면 1장 + 한 바퀴 도는 스크롤 거리 (모바일은 화면 1장)
+    scrolltrack.style.height = Math.round(h * (w <= 900 ? MOB_HERO : 1 + ROT_VH)) + 'px';
+    // 제품 소개 = 진입 화면 1장 + 단계 수 × STEP_VH 화면만큼 고정 (모바일은 고정 없이 내용 높이)
+    product.style.height = w <= 900 ? '' : Math.round(h * (1 + PRODUCT_STEPS * STEP_VH)) + 'px';
     // 특징 = 화면 1장 + 항목 수 × FEAT_VH 화면만큼 고정 (좁은 화면은 고정하지 않음)
     featuresEl.style.height = w <= 900 ? '' : Math.round(h * (1 + feats.length * FEAT_VH)) + 'px';
     heroW = headline.offsetWidth;
@@ -260,7 +263,27 @@
     const gutter = Math.round(w / 2 - R * 1.1 - pad - 16);
     root.style.setProperty('--gutter', gutter + 'px');
     root.classList.toggle('side-stack', gutter < 240);
+    placeSidesMob();
   }
+
+  /* 모바일 포스터 문구 위치: 카메라가 실제로 보이는 크기(원근 확대 mag 포함)로 계산해
+     [영문 글자 끝 ↔ 카메라 윗면]과 [카메라 밑면 ↔ 국문 글자] 간격을 똑같이(SIDE_GAP) 맞춤.
+     camera.png는 위아래 약 14%가 투명 여백, 글자 상자는 영문 아래 .065em·국문 위 .42em이 빈 공간(여러 화면 크기 캡처에서 잰 값) */
+  const SIDE_GAP = 44;
+  function placeSidesMob() {
+    const [en, ko] = sides;
+    if (!isMob()) { en.style.top = ko.style.top = ''; return; }
+    const hero = headline.querySelector('.hero');
+    if (!hero.offsetHeight) return;
+    const mag = persp / (persp - R * 0.62);
+    const half = hero.offsetHeight * mag / 2 * 0.72;   // 투명 여백을 뺀 카메라 반 높이
+    const cy = world.offsetTop;
+    const fsEn = parseFloat(getComputedStyle(en).fontSize), fsKo = parseFloat(getComputedStyle(ko).fontSize);
+    en.style.top = Math.round(cy - half - SIDE_GAP - en.offsetHeight + fsEn * 0.065) + 'px';
+    ko.style.top = Math.round(cy + half + SIDE_GAP - fsKo * 0.42) + 'px';
+  }
+  headline.querySelector('.hero').addEventListener('load', placeSidesMob);
+  if (document.fonts) document.fonts.ready.then(placeSidesMob);
 
   // k에 따라 구체 중심(카메라 뒤)에서 제자리로 펼쳐짐
   function placeCard(c) {
@@ -307,6 +330,7 @@
      스크롤 ROT_VH 화면 높이만큼 내리면 구체가 한 바퀴(360°) 돌고,
      그 뒤로는 구체가 페이지와 함께 올라가며 다음 섹션이 나타난다. 카메라는 화면 중앙에 남는다. */
   const ROT_VH = 3.2;          // 한 바퀴에 필요한 스크롤 거리(화면 높이 배수)
+  const MOB_HERO = 0.86;       // 모바일 첫 화면 높이(화면 높이 배수) — 아래에 다음 섹션이 살짝 보이게
   const PRODUCT_STEPS = 3;   // 제품 소개 단계 수
   const FEAT_VH = 0.9;       // 특징 항목 하나가 강조되는 스크롤 거리(화면 높이 배수)
   const STEP_VH = 3;           // 단계 하나에 필요한 스크롤 거리(화면 높이 배수) — 클수록 천천히 진행
@@ -336,6 +360,22 @@
      효과가 모두 끝난 뒤 다음 단계의 사진·문구로 넘어감 */
   let stepIdx = -1;
   const lastFx = pvs.map(() => '');
+  function setPvFx(el, i, k) {
+    const sweep = smooth(0.03, 0.58, k);   // 흑백 전환(빛줄기)
+    const e = (-20 + 140 * sweep).toFixed(2);
+    const glint = (sweep > 0 && sweep < 1 ? Math.sin(Math.PI * sweep) : 0).toFixed(3);
+    const dev = smooth(0.55, 0.72, k).toFixed(3);
+    const fx = e + '|' + glint + '|' + dev;
+    if (fx === lastFx[i]) return;
+    lastFx[i] = fx;
+    el.style.setProperty('--e', e + '%');
+    el.style.setProperty('--glint', glint);
+    el.style.setProperty('--dev', dev);
+  }
+  // 모바일: 전환 연출 없이 처음부터 완성된 흑백 사진(PC 전환의 끝 상태)
+  function stepProductMob() {
+    pvs.forEach((el, i) => setPvFx(el, i, 1));
+  }
   function stepProduct(off, enter) {
     product.style.setProperty('--enter', Math.round(smooth(0.4, 1, enter) * 1000) / 1000);
     const t = clamp((off - H()) / (H() * STEP_VH * PRODUCT_STEPS), 0, 1);
@@ -354,25 +394,21 @@
     const mono = smooth(0.03, 0.58, u) > 0.5;
     if (mono !== pvMono) { pvMono = mono; productFrame.classList.toggle('is-mono', mono); }
     // 지나간 단계 사진은 끝 상태, 아직 안 온 단계 사진은 컬러 상태로 고정
-    pvs.forEach((el, i) => {
-      const k = idx > i ? 1 : idx < i ? 0 : u;
-      const sweep = smooth(0.03, 0.58, k);   // 흑백 전환(빛줄기)
-      const e = (-20 + 140 * sweep).toFixed(2);
-      const glint = (sweep > 0 && sweep < 1 ? Math.sin(Math.PI * sweep) : 0).toFixed(3);
-      const dev = smooth(0.55, 0.72, k).toFixed(3);
-      const fx = e + '|' + glint + '|' + dev;
-      if (fx === lastFx[i]) return;
-      lastFx[i] = fx;
-      el.style.setProperty('--e', e + '%');
-      el.style.setProperty('--glint', glint);
-      el.style.setProperty('--dev', dev);
-    });
+    pvs.forEach((el, i) => setPvFx(el, i, idx > i ? 1 : idx < i ? 0 : u));
   }
 
   /* ---------- 특징 섹션 ----------
      항목·슬라이드마다 화면 진입도 --r(0~1)을 설정. 연출은 CSS가 이 값으로 계산.
      ISO 항목은 진입도에 맞춰 125 → 200.000 카운트업. 슬라이드는 화면에 있을 때만 자동 넘김(--sp 진행 막대) */
   function stepFeatures() {
+    // 모바일: 스크롤 연출 없이 모든 항목을 다 드러난 상태로(슬라이더는 CSS로 숨김), ISO는 최종 값
+    if (isMob()) {
+      if (featState[0] === 'mob') return;
+      featState.fill('mob');
+      feats.forEach((el) => el.style.setProperty('--r', '1'));
+      if (isoNum) { isoText = (+isoNum.dataset.to).toLocaleString('de-DE'); isoNum.textContent = isoText; }
+      return;
+    }
     const h = H();
     const sec = featuresEl.getBoundingClientRect();
     if (sec.top > h * 1.2 || sec.bottom < -h * 0.2) return;
@@ -426,13 +462,34 @@
   const filmVideo = filmBg.querySelector('.film-video');
   let filmWant = false;
   filmVideo.addEventListener('playing', () => filmBg.classList.add('is-playing'));
-  filmVideo.addEventListener('error', () => filmVideo.remove(), { once: true });
+  filmVideo.addEventListener('error', () => { if (filmVideo.getAttribute('src')) filmVideo.remove(); });   // 파일이 없을 때만(모바일에서 src를 뗀 경우는 제외)
+
+  // 모바일은 배경 영상 없이 단색(CSS) — 영상 파일(약 14MB)도 받지 않도록 src를 떼어 두고, PC 폭이 되면 되돌림
+  const filmSrc = filmVideo.getAttribute('src');
+  let filmOff = false;
+  function filmMobile(mob) {
+    if (mob === filmOff || !filmVideo.isConnected) return;
+    filmOff = mob;
+    filmWant = false;
+    if (mob) { filmVideo.pause(); filmVideo.removeAttribute('src'); }
+    else filmVideo.setAttribute('src', filmSrc);
+    filmVideo.load();
+  }
+  filmMobile(isMob());
 
   function stepFilm() {
     const h = H();
+    filmMobile(isMob());
+    if (filmOff) return;
     // 섹션이 화면에 들어오기 전부터 미리 재생하고, 충분히 멀어진 뒤 정지
-    const ahead = scrollY - h * ROT_VH;               // 음수면 아직 구체 회전 중
-    const want = ahead > -h * 1.2 && ahead < h * (2.5 + PRODUCT_STEPS * STEP_VH);
+    let want;
+    if (isMob()) {
+      const r = product.getBoundingClientRect();
+      want = r.top < h * 2.2 && r.bottom > -h;
+    } else {
+      const ahead = scrollY - h * ROT_VH;               // 음수면 아직 구체 회전 중
+      want = ahead > -h * 1.2 && ahead < h * (2.5 + PRODUCT_STEPS * STEP_VH);
+    }
     if (want !== filmWant) {
       filmWant = want;
       if (!filmVideo.isConnected) return;
@@ -476,9 +533,11 @@
     specPanels.forEach((p, j) => { p.classList.toggle('is-on', j === i); p.hidden = j !== i; });
   }));
   // 섹션 도착 연출을 들어올 때마다 재생: 20% 보이면 .in, arrivedMs 뒤 .arrived(연출 끝), 화면에서 완전히 벗어나면 둘 다 뺌
+  // 모바일은 도착 연출 없이 처음부터 끝 상태(.in.arrived)로 둠
   function replayIn(el, arrivedMs) {
     let t = 0;
     new IntersectionObserver((list) => {
+      if (isMob()) { clearTimeout(t); el.classList.add('in', 'arrived'); return; }
       const en = list[list.length - 1];
       if (en.intersectionRatio >= 0.2 && !el.classList.contains('in')) {
         el.classList.add('in');
@@ -607,7 +666,23 @@
     });
     return out;
   }
+  // 모바일: 3D 무대 대신 사진가 탭 + 가로 스와이프 한 줄. 위치는 CSS가 맡고 JS는 고른 사진가의 카드만 남김
+  // (전체 보기 없음: 처음부터 첫 사진가가 선택된 상태). PC 폭이 되면 전체 보기로 되돌림
+  let galMob = false;
   function layoutStage() {
+    if (isMob()) {
+      if (galSel < 0) { selectArtist(0); return; }
+      galMob = true;
+      galCards.forEach((c) => {
+        const s = c.el.style;
+        s.width = s.height = s.transform = s.opacity = s.transitionDelay = '';
+        s.setProperty('--ar', c.ar.toFixed(3));
+        c.el.classList.toggle('is-wide', c.ar >= 1);
+        c.el.classList.toggle('is-off', c.ch !== galSel);
+      });
+      return;
+    }
+    if (galMob) { galMob = false; selectArtist(-1); return; }
     const sw = galStage.clientWidth, sh = galStage.clientHeight;
     if (!sw || !sh) return;
     const n = galCards.length;
@@ -653,6 +728,7 @@
   }
   function selectArtist(ch) {
     galSel = ch;
+    galMoreSet(false);   // 사진가를 바꾸면 감상 글은 다시 접힘(모바일 토글)
     galShown = true;
     if (ch >= 0) galleryEl.classList.add('is-used');   // 한 번 고르면 클릭 유도 표시는 끝
     galleryEl.classList.toggle('is-artist', ch >= 0);
@@ -662,9 +738,18 @@
     if (ch >= 0) fillDetail(ch);
     layoutStage();
   }
+  // 모바일: 인용문·감상 글 접기/펼치기 토글 (PC에서는 버튼이 숨겨져 있고 CSS도 적용 안 됨)
+  const galMore = galDetail.querySelector(".g-more");
+  function galMoreSet(open) {
+    galDetail.classList.toggle("is-open", open);
+    galMore.setAttribute("aria-expanded", open);
+    galMore.querySelector("i").className = "fa-solid " + (open ? "fa-minus" : "fa-plus");
+  }
+  galMore.addEventListener("click", () => galMoreSet(!galDetail.classList.contains("is-open")));
   // 메뉴로 갤러리에 올 때: 첫 화면으로 되돌림(전체 보기, 클릭 유도 문구·점 다시 표시, 인트로 글 숨김, 카드는 전환 없이 즉시 흩어 둠)
   // → 화면에 들어오면 평소처럼 인트로 글이 나타나고 카드가 모임
   function galResetIntro() {
+    if (isMob()) return;   // 모바일은 첫 화면 연출이 없으므로 고른 사진가 그대로
     galSel = -1;
     galShown = false;
     galleryEl.classList.remove('is-artist', 'is-used', 'g-in');
@@ -677,11 +762,16 @@
     galCards.forEach((c) => { c.el.style.transition = ''; });
   }
   function galPlayIntro() {
+    if (isMob()) return;
     galleryEl.classList.add('g-in');
     if (!galShown) { galShown = true; layoutStage(); }
   }
   galBtns.forEach((b) => {
-    b.addEventListener('click', () => selectArtist(+b.dataset.ch === galSel ? -1 : +b.dataset.ch));
+    b.addEventListener('click', () => {
+      // 모바일 탭은 같은 이름을 다시 눌러도 그대로(전체 보기 없음), 바꾸면 사진 줄을 처음으로
+      if (isMob()) { if (+b.dataset.ch !== galSel) { selectArtist(+b.dataset.ch); galStage.scrollLeft = 0; } return; }
+      selectArtist(+b.dataset.ch === galSel ? -1 : +b.dataset.ch);
+    });
     if (b.classList.contains('g-back')) return;
     b.addEventListener('pointerenter', () => { if (galSel < 0) galStage.dataset.peek = b.dataset.ch; });
     b.addEventListener('pointerleave', () => { delete galStage.dataset.peek; });
@@ -692,6 +782,7 @@
   }));
   // 섹션이 30% 이상 보이면 흩어진 카드가 차라락 모이고, 화면에서 완전히 벗어나면(전체 보기 상태일 때) 다시 흩어져 다음에 또 모임
   const galIO = new IntersectionObserver((list) => {
+    if (isMob()) { galleryEl.classList.add('g-in'); return; }   // 모바일: 등장 연출 없음
     const en = list[list.length - 1];
     if (en.intersectionRatio >= 0.3) galleryEl.classList.add('g-in');            // 인트로 글 등장
     else if (en.intersectionRatio === 0 && galSel < 0) galleryEl.classList.remove('g-in');
@@ -699,6 +790,44 @@
     else if (en.intersectionRatio === 0 && galShown && galSel < 0) { galShown = false; layoutStage(); }
   }, { threshold: [0, 0.3] });
   galIO.observe(galleryEl);
+
+  /* 모바일 가로 줄(제품 소개 카드·갤러리 사진): 손가락은 브라우저 기본 스와이프로 넘어가고,
+     마우스(좁힌 PC 창 등)는 기본으로 끌어 넘길 수 없어서 끌기를 직접 처리. 놓으면 끈 방향의 다음 카드로 */
+  function dragScroll(el, snapSel) {
+    let d = null;
+    el.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse" || e.button !== 0 || !isMob()) return;
+      e.preventDefault();   // 사진 끌기·글자 선택 막기
+      d = { x: e.clientX, l: el.scrollLeft, moved: false };
+    });
+    addEventListener("pointermove", (e) => {
+      if (!d) return;
+      const dx = e.clientX - d.x;
+      if (!d.moved && Math.abs(dx) < 5) return;
+      if (!d.moved) { d.moved = true; el.classList.add("is-dragging"); }
+      el.scrollLeft = d.l - dx;
+    });
+    addEventListener("pointerup", (e) => {
+      if (!d) return;
+      const { moved, l } = d;
+      d = null;
+      if (!moved) return;
+      // 끈 뒤 손을 뗄 때 생기는 클릭(사진 크게 보기 등)은 무시
+      el.addEventListener("click", (ev) => { ev.preventDefault(); ev.stopPropagation(); }, { capture: true, once: true });
+      setTimeout(() => el.classList.remove("is-dragging"), 0);
+      const base = el.getBoundingClientRect().left - el.scrollLeft;
+      const pts = [...el.querySelectorAll(snapSel)].filter((c) => c.offsetWidth).map((c) => c.getBoundingClientRect().left - base);
+      if (!pts.length) return;
+      const now = el.scrollLeft, dir = now - l;
+      let to = pts.reduce((a, b) => (Math.abs(b - now) < Math.abs(a - now) ? b : a));
+      if (dir > 30) to = pts.find((p) => p > l + 5) ?? to;
+      else if (dir < -30) to = [...pts].reverse().find((p) => p < l - 5) ?? to;
+      el.classList.remove("is-dragging");
+      el.scrollTo({ left: to, behavior: "smooth" });
+    });
+  }
+  dragScroll(product.querySelector(".product-body"), ".pv");
+  dragScroll(galStage, ".g-card");
 
   /* 사진 크게 보기: 갤러리 사진 전체를 ←/→로 넘김, Esc·바깥 클릭으로 닫힘 */
   const gview = $('#gview');
@@ -742,7 +871,7 @@
   addEventListener('keydown', (e) => {
     if (gvCur < 0) {
       // 펼친 상태에서 Esc → 모든 사진으로
-      if (e.key === 'Escape' && galSel >= 0 && focused < 0 && !root.classList.contains('menu-open')) selectArtist(-1);
+      if (e.key === 'Escape' && galSel >= 0 && !isMob() && focused < 0 && !root.classList.contains('menu-open')) selectArtist(-1);
       return;
     }
     if (e.key === 'Escape') gvClose();
@@ -847,19 +976,51 @@
     accDots.innerHTML = it.images.map((_, j) => `<button type="button" class="acc-dot" aria-label="${j + 1}번 이미지"></button>`).join('');
     accSetImg(0);
   }
-  // 분류를 고르면 타일을 다시 그림. 보고 있던 제품이 빠지면 그 분류의 첫 제품으로
-  function accFilterBy(id) {
-    accFilter.querySelectorAll('.acc-chip').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.cat === id)));
-    const list = acc.items.map((it, i) => ({ it, i })).filter(({ it }) => id === 'all' || it.category === id);
-    accGrid.innerHTML = list.map(({ it, i }, k) =>
+  // 모바일은 한 페이지에 ACC_PER개씩 + 아래 페이지 버튼(‹ 1 2 3 ›). PC는 전체를 한 번에(페이지 없음)
+  const ACC_PER = 6;
+  const accPager = accEl.querySelector('.acc-pager');
+  let accList = [], accPage = 0, accPaged = null;
+  function accRender() {
+    const mob = isMob();
+    accPaged = mob;
+    const pages = mob ? Math.max(1, Math.ceil(accList.length / ACC_PER)) : 1;
+    accPage = Math.min(accPage, pages - 1);
+    const shown = mob ? accList.slice(accPage * ACC_PER, (accPage + 1) * ACC_PER) : accList;
+    accGrid.innerHTML = shown.map(({ it, i }, k) =>
       `<li style="--i:${k}"><button type="button" class="acc-tile" data-i="${i}" aria-pressed="false" aria-label="${it.name} ${it.nameKo}">` +
       `<span class="acc-thumb"><img src="${acc.imageDir}${it.images[0]}" alt="" decoding="async" loading="lazy"></span>` +
-      `<span class="acc-tile-name">${it.name}</span></button></li>`).join('');
+      `<span class="acc-tile-name">${it.name}</span>` +
+      `<span class="acc-tile-price">${it.price.toLocaleString('ko-KR')}원</span></button></li>`).join('');   // 가격은 모바일 그리드에서만 보임
     accGrid.querySelectorAll('img').forEach(showWhenLoaded);
     accGrid.scrollTop = 0;
     accGrid.scrollLeft = 0;
-    if (list.some(({ i }) => i === accSel)) accMark(); else accSelect(list[0].i);
+    accMark();
+    accPager.innerHTML = pages < 2 ? '' :
+      `<button type="button" class="acc-pg acc-pg-arrow" data-p="${accPage - 1}" aria-label="이전 페이지"${accPage === 0 ? ' disabled' : ''}><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>` +
+      Array.from({ length: pages }, (_, p) => `<button type="button" class="acc-pg" data-p="${p}" aria-label="${p + 1}페이지"${p === accPage ? ' aria-current="page"' : ''}>${p + 1}</button>`).join('') +
+      `<button type="button" class="acc-pg acc-pg-arrow" data-p="${accPage + 1}" aria-label="다음 페이지"${accPage === pages - 1 ? ' disabled' : ''}><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>`;
   }
+  // 분류를 고르면 첫 페이지부터 다시 그림. 보고 있던 제품이 빠지면 그 분류의 첫 제품으로
+  function accFilterBy(id) {
+    accFilter.querySelectorAll('.acc-chip').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.cat === id)));
+    accList = acc.items.map((it, i) => ({ it, i })).filter(({ it }) => id === 'all' || it.category === id);
+    accPage = 0;
+    accRender();
+    if (!accList.some(({ i }) => i === accSel)) accSelect(accList[0].i);
+  }
+  // 페이지 버튼: 바꾼 뒤 목록 윗부분(분류 탭)이 화면 위에 오도록 바로 이동
+  accPager.addEventListener('click', (e) => {
+    const b = e.target.closest('.acc-pg');
+    if (!b || b.disabled) return;
+    accPage = +b.dataset.p;
+    accRender();
+    const top = accFilter.getBoundingClientRect().top + scrollY - 76;
+    if (accFilter.getBoundingClientRect().top < 76) scrollTo({ top, behavior: 'instant' });
+    const cur = accPager.querySelector('[aria-current]');
+    if (cur) cur.focus({ preventScroll: true });
+  });
+  // 모바일 ↔ PC 폭이 바뀌면 페이지 나눔을 켜고 끔
+  addEventListener('resize', () => { if (acc && isMob() !== accPaged) accRender(); });
   fetch('accessories.json').then((r) => r.json()).then((data) => {
     acc = data;
     const n = data.notice;
@@ -883,8 +1044,29 @@
   });
   accGrid.addEventListener('click', (e) => {
     const t = e.target.closest('.acc-tile');
-    if (t) accSelect(+t.dataset.i);
+    if (!t) return;
+    accSelect(+t.dataset.i);
+    if (isMob()) accSheet(true, t);
   });
+  /* 모바일: 상세(.acc-detail)는 타일을 누르면 아래에서 올라오는 시트로 열림.
+     배경 막·닫기 버튼·Esc로 닫힘, 열린 동안 뒤 페이지 스크롤 잠금(html.acc-lock), 닫으면 누른 타일로 포커스 복귀 */
+  let accBack = null;
+  function accSheet(open, from) {
+    if (open === accEl.classList.contains('sheet-open')) return;
+    accEl.classList.toggle('sheet-open', open);
+    root.classList.toggle('acc-lock', open);
+    if (open) {
+      accBack = from || document.activeElement;
+      accDetail.scrollTop = 0;
+      setTimeout(() => accEl.querySelector('.acc-close').focus({ preventScroll: true }), 60);
+    } else if (accBack && accBack.isConnected) accBack.focus({ preventScroll: true });
+  }
+  accEl.querySelector('.acc-close').addEventListener('click', () => accSheet(false));
+  accEl.querySelector('.acc-scrim').addEventListener('click', () => accSheet(false));
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && accEl.classList.contains('sheet-open') && !mm.classList.contains('open')) accSheet(false);
+  });
+  addEventListener('resize', () => { if (!isMob()) accSheet(false); });
   accDots.addEventListener('click', (e) => {
     const d = e.target.closest('.acc-dot');
     if (d) accSetImg([...accDots.children].indexOf(d));
@@ -905,6 +1087,7 @@
     });
   };
   const accIO = new IntersectionObserver((list) => {
+    if (isMob()) { clearTimeout(accTimer); accEl.classList.add('in', 'arrived'); return; }   // 모바일: 도착 연출 없음
     const en = list[list.length - 1];
     if (en.intersectionRatio >= 0.2 && !accEl.classList.contains('in')) {
       accEl.classList.add('in');
@@ -942,6 +1125,33 @@
   addEventListener('scroll', bkHeadCheck, { passive: true });
   addEventListener('resize', bkHeadCheck);
   bkHeadCheck();
+
+  /* 맨 위로 버튼: 제품 소개가 화면 위쪽 30% 선까지 올라오면 나타남(.show).
+     모바일은 부드럽게. PC는 새로고침한 것처럼 첫 장면으로: 즉시 맨 위로 + 구체 회전값을 바로 0으로(감기는 모션 없이) + 장면 살짝 페이드인 */
+  const toTop = $('.to-top');
+  const toTopCheck = () => {
+    const on = product.getBoundingClientRect().top < H() * 0.3;
+    if (on !== toTop.classList.contains('show')) {
+      toTop.classList.toggle('show', on);
+      toTop.tabIndex = on ? 0 : -1;
+    }
+  };
+  addEventListener('scroll', toTopCheck, { passive: true });
+  addEventListener('resize', toTopCheck);
+  toTopCheck();
+  toTop.addEventListener('click', () => {
+    autoTo = -1;   // 진행 중인 섹션 자동 이동 취소 (위로 가는 스크롤에는 자동 이동이 걸리지 않음)
+    toTop.blur();
+    if (isMob()) { scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    stage.style.transition = 'none';
+    stage.style.opacity = '0';
+    scrollTo({ top: 0, behavior: 'instant' });
+    spin = 0; dragX = dragY = velX = velY = 0;   // 되감기 없이 첫 장면 그대로
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      stage.style.transition = '';   // CSS의 opacity .6s 전환으로 첫 장면이 페이드인
+      stage.style.opacity = '';
+    }));
+  });
 
   function bkSetActive(i) {
     bkActive = (i + bkOpts.length) % bkOpts.length;
@@ -1063,20 +1273,29 @@
     }
     dragY = clamp(dragY, -PITCH - tilt, PITCH - tilt);
 
-    const rotDist = H() * ROT_VH;
-    const p = clamp(scrollY / rotDist, 0, 1);       // 회전 진행도 0~1
+    const mob = isMob();
+    const rotDist = mob ? 0 : H() * ROT_VH;
     const off = Math.max(0, scrollY - rotDist);      // 한 바퀴 이후 내려간 거리(px)
-    spin += (-360 * p - spin) * SPIN_EASE;
+    if (mob) {
+      // 모바일: 사진 카드 구체는 숨김(CSS) — 회전 없이 카메라만 정면으로 고정
+      spin = 0; dragX = dragY = 0;
+    } else {
+      const p = clamp(scrollY / rotDist, 0, 1);       // 회전 진행도 0~1
+      spin += (-360 * p - spin) * SPIN_EASE;
+    }
 
     const sx = tilt + dragY;
     const sy = spin + dragX;
     // 구체는 off만큼 위로 올라가고, 카메라는 같은 만큼 되돌려 화면 중앙에 남김
-    world.style.transform = `translateY(${-off}px) rotateY(${sy}deg) rotateX(${sx}deg)`;
+    // 모바일: 3D 안에서 올리면 원근 때문에 카메라가 스크롤보다 빨리 움직여 문구와 어긋나므로, 장면(#stage) 전체를 2D로 올림
+    world.style.transform = `translateY(${mob ? 0 : -off}px) rotateY(${sy}deg) rotateX(${sx}deg)`;
+    const stageY = mob ? `translateY(${-off}px)` : '';
+    if (stage.style.transform !== stageY) stage.style.transform = stageY;
     // 제품 소개로 들어오면 카메라가 한쪽으로 비켜나며 작아짐(데스크톱은 왼쪽, 좁은 화면은 위쪽)
     const z0 = R * 0.62;
     const mag = persp / (persp - z0);   // 원근 확대율: 화면 px = 월드 px × mag
     stepFilm();
-    const move = smooth(H() * 0.3, H() * 0.95, off);
+    const move = mob ? 0 : smooth(H() * 0.3, H() * 0.95, off);
     let tx = 0, ty = 0, ts = 1;
     if (move > 0 && heroW) {
       ts = 1 + (camTarget / (heroW * mag) - 1) * move;
@@ -1087,7 +1306,7 @@
     // 도착한 뒤에는 슬라이드 위치를 그대로 따라가므로 페이지와 함께 스크롤됨
     let rz = 0;
     const offF = off - H() * (1 + PRODUCT_STEPS * STEP_VH);   // 제품 소개 고정이 풀린 뒤 내려간 거리
-    if (offF > 0 && heroW) {
+    if (!mob && offF > 0 && heroW) {
       const f = smooth(0, H() * 0.9, offF);
       const sb = slideAnchor.getBoundingClientRect();   // 정면 카드 자리
       const decoW = clamp(sb.width * 0.5, 120, 240);   // 장식 카메라의 화면 폭
@@ -1100,20 +1319,23 @@
       ts = w / (heroW * mag);
       rz = -6 * f;
     }
-    headline.style.transform = `rotateX(${-sx}deg) rotateY(${-sy}deg) translateY(${off}px) translate(${tx / mag}px, ${ty / mag}px) translateZ(${z0}px) rotate(${rz}deg) scale(${ts})`;
-    stepProduct(off, move);
+    // 모바일은 카메라가 화면에 남지 않고 구체와 함께 위로 올라가 사라짐(translateY 보정 없음)
+    headline.style.transform = `rotateX(${-sx}deg) rotateY(${-sy}deg) translateY(${mob ? 0 : off}px) translate(${tx / mag}px, ${ty / mag}px) translateZ(${z0}px) rotate(${rz}deg) scale(${ts})`;
+    if (mob) stepProductMob(); else stepProduct(off, move);
     stepFeatures();
 
     body.classList.toggle('deep', scrollY > 4);
     body.classList.toggle('past', off > 1);
-    body.classList.toggle('arrived', off >= H() - 2);   // 제품 소개가 화면을 완전히 채운 뒤 — 구매하기 버튼 등장
+    body.classList.toggle('arrived', off >= H() * (mob ? MOB_HERO : 1) - 2);   // 제품 소개가 화면을 완전히 채운 뒤 — 구매하기 버튼 등장
 
     stepUnfold(performance.now());
 
     // 포스터 문구: 영문(왼쪽 위) 3~16% 등장 → 국문(오른쪽 아래) 30~44% 등장 → 둘이 함께 84~96% 퇴장 (부드럽게 따라오는 spin 기준)
     // 각 문구는 카메라·사진 앞에서 등장했다가 잠시 뒤(영문 24%, 국문 54%) 구체 뒤로 물러남(.is-back)
-    const ps = clamp(-spin / 360, 0, 1);
-    const out = 1 - smooth(0.84, 0.96, ps);
+    // 모바일은 회전 진행도가 없으므로 두 문구를 구체 뒤에 고정 표시하고, 스크롤하면 첫 화면과 함께 사라짐
+    // (문구는 position:fixed라 그대로 두면 다음 섹션 위에 남음)
+    const ps = mob ? 0.6 : clamp(-spin / 360, 0, 1);
+    const out = mob ? 1 : 1 - smooth(0.84, 0.96, ps);   // 모바일: 사라지는 모션 없음(문구가 페이지에 붙어 함께 올라감, CSS)
     const sv1 = (smooth(0.03, 0.16, ps) * out).toFixed(3);
     const sv2 = (smooth(0.3, 0.44, ps) * out).toFixed(3);
     if (sv1 + sv2 !== sideV) { sideV = sv1 + sv2; sides[0].style.setProperty('--v', sv1); sides[1].style.setProperty('--v', sv2); }
@@ -1129,7 +1351,7 @@
     const leave = clamp(1 - off / (H() * 0.35), 0, 1);
     vig.style.setProperty('--leave', leave);
     // 다크 섹션이 헤더 높이(약 80px)까지 올라오면 헤더 메뉴를 밝은 색으로
-    const onDark = off > H() - 80;
+    const onDark = off > H() * (mob ? MOB_HERO : 1) - 80;
     body.classList.toggle('on-dark', onDark);
     root.classList.toggle('on-dark', onDark); // 스크롤바 자리 배경도 맞춤
     for (let i = 0; i < N; i++) {
@@ -1165,7 +1387,7 @@
   const DEG_PER_PX = 0.13;
 
   stage.addEventListener('pointerdown', (e) => {
-    if (focused >= 0) return;
+    if (focused >= 0 || isMob()) return;   // 모바일은 구체가 없어 끌어 돌리기 없음
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     const card = e.target.closest('.card'); // 캡처로 타깃이 바뀌기 전에 기록
     const immediate = e.pointerType !== 'touch';
@@ -1463,9 +1685,33 @@
     body.classList.add('revealed');
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) finishUnfold();
     else unfoldStart = performance.now() + UNFOLD_DELAY;
+    // (모바일 6초 뒤 자동 이동은 인터랙션 최소화 요청으로 삭제)
   }
+
+  /* 모바일 첫 화면 배경: 구체 대신 사진 21장(SHOTS)을 바둑판으로 #scrolltrack 안에 아주 옅게 깔기.
+     페이지와 함께 스크롤되고 카메라(#stage) 뒤에 놓임. 모바일 폭이 처음 될 때 한 번만 만듦(PC에서는 만들지 않음) */
+  let heroTiles = null;
+  function buildHeroTiles() {
+    if (heroTiles || !isMob()) return;
+    heroTiles = document.createElement('div');
+    heroTiles.className = 'hero-tiles';
+    const files = SHOTS.map((s) => s.file);
+    // 4열 × 6줄 = 24칸 — 모자라는 3칸은 앞 사진으로 채움
+    for (let k = 0; k < 24; k++) {
+      const img = document.createElement('img');
+      img.src = IMG_DIR + files[k % files.length];
+      img.alt = '';
+      img.decoding = 'async';
+      heroTiles.appendChild(img);
+    }
+    scrolltrack.appendChild(heroTiles);
+  }
+  buildHeroTiles();
+  addEventListener('resize', buildHeroTiles);
 
   /* ---------- 시작: 스플래시 동안 구체는 이미 완성된 상태로 돌아감 ---------- */
   layout(true);
+  // 모바일은 로딩 화면 없이 바로 시작(사진은 불러오는 대로 카드에 나타남)
+  if (isMob()) { splashDone = true; splash.remove(); reveal(); }
   frame();
 })();

@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="images/logo.png?v=2">
   <!-- Font Awesome (메뉴 아이콘) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-  <link rel="stylesheet" href="style.css?v=47">
+  <link rel="stylesheet" href="style.css?v=91">
 </head>
 <body class="locked">
 
@@ -275,7 +275,7 @@
       <div class="g-side">
         <div class="g-panel">
           <div class="g-intro">
-            <span class="g-eyebrow"><i aria-hidden="true"></i>Gallery — Three Photographers</span>
+            <span class="g-eyebrow"><i aria-hidden="true"></i><span>Gallery<span class="g-eyebrow-sub"> — Three Photographers</span></span></span>
             <h2 id="galleryTitle" class="g-title"><span class="gl"><span>세 사람의 시선,</span></span><span class="gl"><span>하나의 <em>모노크롬</em></span></span></h2>
             <p class="g-lead">라이카 M11 모노크롬을 먼저 손에 쥔 세 명의 사진가.<br>그들이 빛과 그림자만으로 기록한 순간들을 만나 보세요.</p>
           </div>
@@ -283,7 +283,9 @@
             <span class="g-idx"></span>
             <h3 class="g-name"></h3>
             <span class="g-role">Photographer</span>
-            <blockquote class="g-quote"></blockquote>
+            <!-- 모바일 전용: 인용문·감상 글을 접었다 펼치는 토글 (PC에서는 숨김) -->
+            <button type="button" class="g-more" aria-expanded="false" aria-controls="gDetailBody"><span>감상 글</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+            <blockquote class="g-quote" id="gDetailBody"></blockquote>
             <p class="g-note"></p>
           </div>
         </div>
@@ -396,9 +398,14 @@
         </header>
         <div class="acc-filter" role="group" aria-label="액세서리 분류"></div>
         <ul class="acc-grid" aria-label="액세서리 목록"></ul>
+        <!-- 모바일 전용: 6개씩 페이지 나눔 (PC에서는 숨김, JS가 채움) -->
+        <nav class="acc-pager" aria-label="액세서리 페이지"></nav>
         <a class="acc-all mall-link" href="#">공식몰에서 전체 액세서리 보기<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
       </div>
-      <article class="acc-detail" aria-live="polite">
+      <!-- 모바일 전용: 상세가 아래에서 올라오는 시트가 될 때의 배경 막·닫기 버튼 (PC에서는 숨김) -->
+      <div class="acc-scrim" aria-hidden="true"></div>
+      <article class="acc-detail" aria-live="polite" aria-label="제품 상세">
+        <button type="button" class="acc-close" aria-label="상세 닫기"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
         <div class="acc-media">
           <div class="acc-plinth">
             <img class="acc-img" alt="" decoding="async">
@@ -580,6 +587,9 @@
   <p class="side side-left" lang="en"><span class="ln"><span>Leica M11</span></span> <span class="ln"><span>Monochrom</span></span></p>
   <p class="side side-right" lang="ko"><span class="ln"><span>빛과 그림자로</span></span> <span class="ln"><span>완성하는 사진</span></span></p>
 
+  <!-- 맨 위로: 두 번째 섹션(제품 소개)부터 오른쪽 아래에 나타남 -->
+  <button type="button" class="to-top" aria-label="맨 위로" tabindex="-1"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+
   <header class="chrome">
     <a class="wordmark" href="#" aria-label="Leica"><img src="images/logo.png" alt="Leica" width="196" height="196"></a>
     <div class="head-actions">
@@ -652,6 +662,6 @@
 
   <div id="dot" aria-hidden="true"></div>
 
-  <script src="script.js?v=33"></script>
+  <script src="script.js?v=52"></script>
 </body>
 </html>
