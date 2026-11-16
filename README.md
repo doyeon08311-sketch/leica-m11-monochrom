@@ -1,6 +1,6 @@
 # Leica M11 Monochrom — 제품 소개 페이지
 
-> 빛과 그림자만으로 완성하는 흑백 전용 카메라, Leica M11 Monochrom을 스크롤 인터랙션으로 소개하는 웹 페이지입니다.
+>흑백 전용 카메라, Leica M11 Monochrom을 스크롤 인터랙션을 활용해 소개하는 웹 페이지입니다.
 
 <br>
 
