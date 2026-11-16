@@ -132,7 +132,7 @@ PC는 넓은 화면과 마우스 휠을 전제로 **스크롤 자체가 연출�
 ├── script.js           모든 동작 (3D 구체, 스크롤 연출, 갤러리, 액세서리, 폼 검사 …)
 ├── accessories.json    액세서리 섹션 데이터 (분류 5개 · 제품 14개)
 ├── images/             사진 · 제품 이미지 · 영상
-├── fonts/              Chonburi, Pretendard 가변 글꼴 부분판 (OFL 1.1)
+├── fonts/              Chonburi, Pretendard 가변 글꼴 부분판 (둘 다 OFL 1.1, 라이선스 파일 포함)
 └── docs/               README 이미지
 ```
 
