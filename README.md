@@ -38,7 +38,8 @@
 
 ## 📝 기획서
 
-페이지의 기획 의도와 작업 과정은 기획서에 정리했습니다. 이미지를 누르면 기획서가 열립니다.
+페이지의 기획 의도와 작업 과정은 기획서에 정리했습니다.<br>
+👇 **이미지를 누르면 기획서가 열립니다.**
 
 <a href="https://canva.link/wj6r2l2ybzvvi6i"><img src="docs/plan-cover.jpg" width="50%" alt="Leica M11 Monochrom 제품 소개 페이지 기획서 표지"></a>
 
