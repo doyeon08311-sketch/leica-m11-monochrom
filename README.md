@@ -22,8 +22,8 @@
 
 <table>
   <tr>
-    <td width="66%"><img src="docs/pc-features.png?v=2" alt="PC 특징 섹션 — 원형 3D 슬라이드"></td>
-    <td width="34%"><img src="docs/mobile-hero.png?v=2" alt="모바일 첫 화면 — 사진 바둑판 위 카메라"></td>
+    <td width="66%"><img src="docs/pc-features.png?v=3" alt="PC 특징 섹션 — 원형 3D 슬라이드"></td>
+    <td width="34%"><img src="docs/mobile-hero.png?v=3" alt="모바일 첫 화면 — 사진 바둑판 위 카메라"></td>
   </tr>
   <tr>
     <td align="center">PC · 특징 섹션</td>
