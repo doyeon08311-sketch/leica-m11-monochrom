@@ -9,10 +9,10 @@
 | 항목 | 내용 |
 |---|---|
 | 프로젝트 구분 | 개인용 포트폴리오 |
-| 프로젝트 종류 | 제품 소개용 랜딩 페이지 |
+| 프로젝트 종류 | 제품 소개용 랜딩 페이지 (반응형) |
 | 작업자 | 윤도연 (기여도 100%) |
 | 사용 툴 | Figma, Photoshop, Visual Studio Code, Claude Code |
-| 작업 기간 | 2026년 10월 00일 ~ 10월 00일 (n일간) |
+| 작업 기간 | 2026년 10월 27일 ~ 10월 30일 / 작업 기간 4일 (일 평균 4시간, 총 16시간) |
 
 **🔗 사이트 보기: https://leica-m11-monochrom.vercel.app**
 
@@ -67,7 +67,7 @@
 - 토큰 이름은 크기 숫자가 아니라 **쓰임(역할)** 으로 지어, 값을 바꿔도 이름이 어긋나지 않게 했습니다.
 <br>
 
-## 🛠️ 기술 스택 · 폴더 구조 · 실행 방법
+## 🛠️ 기술 스택 · 폴더 구조
 
 **스택** — 빌드 도구 없는 순수 HTML · CSS · JavaScript / Pretendard · Chonburi 폰트 / Font Awesome 6 아이콘 / Vercel 배포
 
@@ -80,6 +80,3 @@
 ├── fonts/              Chonburi, Pretendard 가변 글꼴 부분판 (둘 다 OFL 1.1, 라이선스 파일 포함)
 └── docs/               README 이미지
 ```
-
-**실행** — VS Code Live Server 같은 정적 서버로 `index.html`을 엽니다.
-`file://`로 직접 열면 브라우저 보안 때문에 `accessories.json`을 불러오지 못해 액세서리 섹션이 비어 보입니다.
