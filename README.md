@@ -11,7 +11,7 @@
 | 프로젝트 구분 | 개인용 포트폴리오 |
 | 프로젝트 종류 | 제품 소개용 랜딩 페이지 (반응형) |
 | 작업자 | 윤도연 (기여도 100%) |
-| 사용 툴 | Figma, Photoshop, Visual Studio Code, Claude Code |
+| 사용 툴 | Figma, Photoshop, Visual Studio Code (HTML · CSS · JavaScript), Claude Code |
 | 작업 기간 | 2026년 10월 27일 ~ 10월 30일 / 작업 기간 4일 (일 평균 4시간, 총 16시간) |
 
 **🔗 사이트 보기: https://leica-m11-monochrom.vercel.app**
